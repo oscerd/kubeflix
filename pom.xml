@@ -12,6 +12,7 @@
 
 
     <properties>
+        <!-- Dependency Versions -->
         <archaius.version>0.6.6</archaius.version>
         <hystrix.version>1.4.9</hystrix.version>
         <turbine.version>1.0.0</turbine.version>
@@ -21,6 +22,10 @@
         <ribbon.version>2.1.2</ribbon.version>
         <servlet-api.version>2.5</servlet-api.version>
 
+        <spring-boot.version>1.3.3.RELEASE</spring-boot.version>
+        <spring-cloud-netflix.version>1.0.6.RELEASE</spring-cloud-netflix.version>
+
+        <!-- Maven Plugin Versions -->
         <docker-maven-plugin.version>0.14.1</docker-maven-plugin.version>
         <fabric8-maven-plugin.version>2.2.96</fabric8-maven-plugin.version>
         <jetty-maven-plugin.version>9.3.7.v20160115</jetty-maven-plugin.version>
@@ -122,4 +127,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

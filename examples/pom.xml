@@ -17,6 +17,7 @@
     <modules>
         <module>hello-hystrix</module>
         <module>hello-ribbon</module>
+        <module>hello-ribbon-springboot</module>
     </modules>
 
 
