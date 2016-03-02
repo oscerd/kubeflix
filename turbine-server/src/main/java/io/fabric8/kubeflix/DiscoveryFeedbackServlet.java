@@ -1,7 +1,7 @@
-package io.fabric8.kurbine;
+package io.fabric8.kubeflix;
 
 import com.netflix.turbine.discovery.Instance;
-import io.fabric8.kurbine.discovery.KubernetesDiscovery;
+import io.fabric8.kubeflix.discovery.KubernetesDiscovery;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

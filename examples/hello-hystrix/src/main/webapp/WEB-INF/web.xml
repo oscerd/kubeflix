@@ -12,7 +12,7 @@
     <servlet>
         <display-name>HelloHystrixServlet</display-name>
         <servlet-name>HelloHystrixServlet</servlet-name>
-        <servlet-class>io.fabric8.kurbine.examples.hellohystrix.HelloHystrixServlet</servlet-class>
+        <servlet-class>io.fabric8.kubeflix.examples.hellohystrix.HelloHystrixServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

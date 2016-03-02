@@ -1,4 +1,4 @@
-Kurbine: Kubernetes integration with Turbine
+Kubeflix: Kubernetes integration with Turbine
 --------------------------------------------
 
 This project provides simple integration with Netlix Turbine.
@@ -37,7 +37,7 @@ You can scale up the controller hello-hystrix controller to create more pods run
     mvn clean package docker:build fabric8:apply
 
 The discovery server will discover all endpoints providing a hystrix stream (contain the label: **hystrix.enabled**=true)
-You can access the aggregated stream at http://kurbine-server.vagrant.f8/turbine.stream (or wherever the kurbine-server service is bound).
+You can access the aggregated stream at http://kubeflix-server.vagrant.f8/turbine.stream (or wherever the kubeflix-server service is bound).
 
 
 ### Starting the dashboard
@@ -46,5 +46,5 @@ You can access the aggregated stream at http://kurbine-server.vagrant.f8/turbine
      kubectl create -f controller.yml
      kubectl create -f service.yml
 
-Open your browser at: http://hystrix-dashboard.vagrant.f8:8080  and enter the url of the aggragated stream  http://kurbine-server.vagrant.f8/turbine.stream
+Open your browser at: http://hystrix-dashboard.vagrant.f8:8080  and enter the url of the aggragated stream  http://kubeflix-server.vagrant.f8/turbine.stream
 Et voila!

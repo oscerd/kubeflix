@@ -1,4 +1,4 @@
-package io.fabric8.kurbine.examples.hellohystrix;
+package io.fabric8.kubeflix.examples.hellohystrix;
 
 
 public class Main {

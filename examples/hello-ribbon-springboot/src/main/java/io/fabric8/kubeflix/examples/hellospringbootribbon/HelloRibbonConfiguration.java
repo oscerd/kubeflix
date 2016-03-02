@@ -1,10 +1,10 @@
-package io.fabric8.kurbine.examples.hellospringbootribbon;
+package io.fabric8.kubeflix.examples.hellospringbootribbon;
 
 import com.netflix.client.config.DefaultClientConfigImpl;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.Server;
 import com.netflix.loadbalancer.ServerList;
-import io.fabric8.kurbine.ribbon.KubernetesServerList;
+import io.fabric8.kubeflix.ribbon.KubernetesServerList;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

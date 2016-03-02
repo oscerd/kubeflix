@@ -1,4 +1,4 @@
-package io.fabric8.kurbine.ribbon;
+package io.fabric8.kubeflix.ribbon;
 
 import com.netflix.client.config.CommonClientConfigKey;
 import com.netflix.client.config.IClientConfig;

@@ -1,4 +1,4 @@
-package io.fabric8.kurbine.discovery;
+package io.fabric8.kubeflix.discovery;
 
 import com.netflix.turbine.discovery.Instance;
 import com.netflix.turbine.discovery.InstanceDiscovery;

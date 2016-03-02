@@ -1,4 +1,4 @@
-package io.fabric8.kurbine.examples.hellospringbootribbon;
+package io.fabric8.kubeflix.examples.hellospringbootribbon;
 
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 

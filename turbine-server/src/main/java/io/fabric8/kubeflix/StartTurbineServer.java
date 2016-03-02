@@ -1,10 +1,10 @@
-package io.fabric8.kurbine;
+package io.fabric8.kubeflix;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.netflix.turbine.plugins.PluginsFactory;
-import io.fabric8.kurbine.discovery.KubernetesDiscovery;
+import io.fabric8.kubeflix.discovery.KubernetesDiscovery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

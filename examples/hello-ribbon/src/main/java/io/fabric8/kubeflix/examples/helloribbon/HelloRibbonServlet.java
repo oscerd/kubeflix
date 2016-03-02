@@ -1,4 +1,4 @@
-package io.fabric8.kurbine.examples.helloribbon;
+package io.fabric8.kubeflix.examples.helloribbon;
 
 import com.netflix.client.config.IClientConfig;
 import com.netflix.client.config.IClientConfigKey;
@@ -6,11 +6,10 @@ import com.netflix.ribbon.ClientOptions;
 import com.netflix.ribbon.Ribbon;
 import com.netflix.ribbon.http.HttpRequestTemplate;
 import com.netflix.ribbon.http.HttpResourceGroup;
-import io.fabric8.kurbine.ribbon.KubernetesServerList;
+import io.fabric8.kubeflix.ribbon.KubernetesServerList;
 import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rx.Observer;
 import rx.functions.Action1;
 
 import javax.servlet.ServletException;

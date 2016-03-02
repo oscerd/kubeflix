@@ -1,4 +1,4 @@
-package io.fabric8.kurbine.examples.hellohystrix;
+package io.fabric8.kubeflix.examples.hellohystrix;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

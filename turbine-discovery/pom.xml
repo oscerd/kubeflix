@@ -3,15 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>io.fabric8.kurbine</groupId>
-        <artifactId>kurbine-project</artifactId>
+        <groupId>io.fabric8.kubeflix</groupId>
+        <artifactId>kubeflix-project</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.fabric8.kurbine</groupId>
-    <artifactId>kurbine-discovery</artifactId>
-    <name>Fabric8 :: Kurbine :: Turbine :: Discovery</name>
+    <groupId>io.fabric8.kubeflix</groupId>
+    <artifactId>kubeflix-discovery</artifactId>
+    <name>Fabric8 :: Kubeflix :: Turbine :: Discovery</name>
 
     <dependencies>
         <dependency>

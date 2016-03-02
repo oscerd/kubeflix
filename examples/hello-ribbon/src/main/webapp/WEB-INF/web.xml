@@ -12,7 +12,7 @@
     <servlet>
         <display-name>HelloRibbonServlet</display-name>
         <servlet-name>HelloRibbonServlet</servlet-name>
-        <servlet-class>io.fabric8.kurbine.examples.helloribbon.HelloRibbonServlet</servlet-class>
+        <servlet-class>io.fabric8.kubeflix.examples.helloribbon.HelloRibbonServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
