@@ -3,6 +3,7 @@ package io.fabric8.kurbine.ribbon;
 import com.netflix.client.config.CommonClientConfigKey;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.AbstractServerList;
+import com.netflix.loadbalancer.Server;
 import com.netflix.loadbalancer.ServerList;
 import io.fabric8.kubernetes.api.model.EndpointAddress;
 import io.fabric8.kubernetes.api.model.EndpointPort;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class KubernetesServerList extends AbstractServerList<KubernetesServiceEndpoint> implements ServerList<KubernetesServiceEndpoint> {
+public class KubernetesServerList extends AbstractServerList<Server> implements ServerList<Server> {
 
     private static final int FIRST = 0;
 
@@ -44,26 +45,26 @@ public class KubernetesServerList extends AbstractServerList<KubernetesServiceEn
         this.vipAddresses = clientConfig.getPropertyAsString(CommonClientConfigKey.DeploymentContextBasedVipAddresses, null);
     }
 
-    public List<KubernetesServiceEndpoint> getInitialListOfServers() {
+    public List<Server> getInitialListOfServers() {
         return Collections.emptyList();
     }
 
-    public List<KubernetesServiceEndpoint> getUpdatedListOfServers() {
+    public List<Server> getUpdatedListOfServers() {
         Endpoints endpoints = client.endpoints().inNamespace(namespace).withName(name).get();
-        List<KubernetesServiceEndpoint> result = new ArrayList<KubernetesServiceEndpoint>();
+        List<Server> result = new ArrayList<Server>();
         if (endpoints != null) {
             for (EndpointSubset subset : endpoints.getSubsets()) {
 
                 if (subset.getPorts().size() == 1) {
                     EndpointPort port = subset.getPorts().get(FIRST);
                     for (EndpointAddress address : subset.getAddresses()) {
-                        result.add(new KubernetesServiceEndpoint(address.getIp(), port.getPort()));
+                        result.add(new Server(address.getIp(), port.getPort()));
                     }
                 } else {
                     for (EndpointPort port : subset.getPorts()) {
                         if (Utils.isNullOrEmpty(vipAddresses) || vipAddresses.endsWith(port.getName())) {
                             for (EndpointAddress address : subset.getAddresses()) {
-                                result.add(new KubernetesServiceEndpoint(address.getIp(), port.getPort()));
+                                result.add(new Server(address.getIp(), port.getPort()));
                             }
                         }
                     }
