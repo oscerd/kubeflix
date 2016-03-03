@@ -28,7 +28,7 @@
 
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>kubeflix-project</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <packaging>pom</packaging>
     <name>Fabric8 :: Kubeflix :: Project</name>
 
