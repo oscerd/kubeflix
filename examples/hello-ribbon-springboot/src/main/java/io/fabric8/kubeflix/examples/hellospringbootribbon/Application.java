@@ -18,8 +18,10 @@ package io.fabric8.kubeflix.examples.hellospringbootribbon;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 
 @SpringBootApplication
+@EnableCircuitBreaker
 public class Application {
 
     public static void main(String[] args) {
