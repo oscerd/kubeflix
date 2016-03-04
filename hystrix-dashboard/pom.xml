@@ -26,17 +26,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.fabric8.kubeflix</groupId>
-    <artifactId>kubeflix-server</artifactId>
+    <artifactId>hystrix-dashboard</artifactId>
     <packaging>war</packaging>
-    <name>Fabric8 :: Kubeflix :: Turbine :: Server</name>
+    <name>Fabric8 :: Kubeflix :: Hystrix :: Dashboard</name>
 
     <properties>
         <docker.from>fabric8/jetty-9:1.0.0</docker.from>
         <docker.image>fabric8/${project.artifactId}:${project.version}</docker.image>
         <docker.assemblyDescriptorRef>rootWar</docker.assemblyDescriptorRef>
-        <docker.port.container.jolokia>8778</docker.port.container.jolokia>
         <docker.port.container.http>8080</docker.port.container.http>
-
         <fabric8.service.name>${project.artifactId}</fabric8.service.name>
         <fabric8.service.port>80</fabric8.service.port>
         <fabric8.service.containerPort>8080</fabric8.service.containerPort>
@@ -50,9 +48,9 @@
             <artifactId>servlet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.fabric8.kubeflix</groupId>
-            <artifactId>kubeflix-discovery</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.netflix.hystrix</groupId>
+            <artifactId>hystrix-dashboard</artifactId>
+            <type>war</type>
         </dependency>
     </dependencies>
 
@@ -63,6 +61,17 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${maven-war-plugin.version}</version>
                 <extensions>true</extensions>
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <groupId>com.netflix.hystrix</groupId>
+                            <artifactId>hystrix-dashboard</artifactId>
+                            <!--excludes>
+                                <exclude>index.html</exclude>
+                            </excludes-->
+                        </overlay>
+                    </overlays>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
@@ -82,9 +91,6 @@
                                 <assembly>
                                     <descriptorRef>${docker.assemblyDescriptorRef}</descriptorRef>
                                 </assembly>
-                                <env>
-                                    <CATALINA_OPTS>-javaagent:/opt/tomcat/jolokia-agent.jar=host=0.0.0.0,port=8778</CATALINA_OPTS>
-                                </env>
                             </build>
                         </image>
                     </images>
