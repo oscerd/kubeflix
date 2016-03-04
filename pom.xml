@@ -98,10 +98,11 @@
     </properties>
 
     <modules>
+        <module>ribbon-discovery</module>
         <module>turbine-discovery</module>
         <module>turbine-server</module>
+        <module>hystrix-dashboard</module>
         <module>examples</module>
-        <module>ribbon-discovery</module>
     </modules>
 
     <dependencyManagement>
@@ -136,7 +137,12 @@
                 <artifactId>hystrix-metrics-event-stream</artifactId>
                 <version>${hystrix.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.netflix.hystrix</groupId>
+                <artifactId>hystrix-dashboard</artifactId>
+                <version>${hystrix.version}</version>
+                <type>war</type>
+            </dependency>
             <dependency>
                 <groupId>io.reactivex</groupId>
                 <artifactId>rxjava</artifactId>
