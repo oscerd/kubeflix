@@ -37,7 +37,7 @@ You can scale up the controller hello-hystrix controller to create more pods run
     mvn clean package docker:build fabric8:apply
 
 The discovery server will discover all endpoints providing a hystrix stream (contain the label: **hystrix.enabled**=true)
-You can access the aggregated stream at http://kubeflix-server.vagrant.f8/turbine.stream (or wherever the kubeflix-server service is bound).
+You can access the aggregated stream at http://turbine-server.vagrant.f8/turbine.stream (or wherever the turbine-server service is bound).
 
 
 ### Starting the dashboard
@@ -45,5 +45,5 @@ You can access the aggregated stream at http://kubeflix-server.vagrant.f8/turbin
      cd dashboard
      mvn clean package docker:build fabric8:apply
 
-Open your browser at: http://hystrix-dashboard.vagrant.f8:8080  and press the monitor button.
+Open your browser at: http://hystrix-dashboard.vagrant.f8:8080  and enter the url of the aggragated stream  http://turbine-server.vagrant.f8/turbine.stream
 Et voila!

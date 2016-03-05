@@ -32,7 +32,8 @@
 
     <properties>
         <docker.from>fabric8/jetty-9:1.0.0</docker.from>
-        <docker.image>fabric8/${project.artifactId}:${project.version}</docker.image>
+        <fabric8.dockerUser>fabric8/</fabric8.dockerUser>
+        <docker.image>${fabric8.dockerUser}${project.artifactId}:${project.version}</docker.image>
         <docker.assemblyDescriptorRef>rootWar</docker.assemblyDescriptorRef>
         <docker.port.container.http>8080</docker.port.container.http>
         <fabric8.service.name>${project.artifactId}</fabric8.service.name>
