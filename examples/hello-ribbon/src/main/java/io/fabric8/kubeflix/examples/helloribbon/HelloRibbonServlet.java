@@ -39,24 +39,22 @@ public class HelloRibbonServlet extends HttpServlet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloRibbonServlet.class);
 
+    private IClientConfig config = IClientConfig.Builder.newBuilder().withDefaultValues().build()
+            .set(IClientConfigKey.Keys.NIWSServerListClassName, KubernetesServerList.class.getName());
+
+    private HttpResourceGroup group = Ribbon.createHttpResourceGroupBuilder("hello-hystrix")
+            .withClientOptions(ClientOptions.from(config)).build();
+
+    private HttpRequestTemplate<ByteBuf> template = group.newTemplateBuilder("HelloRibbon")
+            .withMethod("GET")
+            .withUriTemplate("/hello")
+            .build();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
 
         final PrintWriter out = resp.getWriter();
-        out.println("<h1>Load Balance Targets:</h1>");
-
-        IClientConfig config = IClientConfig.Builder.newBuilder().withDefaultValues().build()
-                .set(IClientConfigKey.Keys.NIWSServerListClassName, KubernetesServerList.class.getName());
-
-        HttpResourceGroup group = Ribbon.createHttpResourceGroupBuilder("hello-hystrix")
-                .withClientOptions(ClientOptions.from(config)).build();
-
-        HttpRequestTemplate<ByteBuf> template = group.newTemplateBuilder("HelloRibbon")
-                .withMethod("GET")
-                .withUriTemplate("/hello")
-                .build();
-
         template.requestBuilder()
                 .build()
                 .toObservable()
