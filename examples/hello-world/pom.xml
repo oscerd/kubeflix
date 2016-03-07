@@ -19,19 +19,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>kubeflix-project</artifactId>
+        <artifactId>examples</artifactId>
         <groupId>io.fabric8.kubeflix</groupId>
         <version>1.0.10-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.fabric8.kubeflix</groupId>
-    <artifactId>examples</artifactId>
+    <artifactId>hello-world-example</artifactId>
+    <name>Fabric8 :: Kubeflix :: Examples :: Hello World</name>
     <packaging>pom</packaging>
-    <name>Fabric8 :: Kubeflix :: Examples</name>
 
     <modules>
-        <module>hello-world</module>
+        <module>hello-hystrix</module>
+        <module>hello-ribbon</module>
+        <module>hello-ribbon-springboot</module>
     </modules>
 
 </project>
