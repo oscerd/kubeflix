@@ -31,10 +31,7 @@
     <name>Fabric8 :: Kubeflix :: Examples</name>
 
     <modules>
-        <module>hello-hystrix</module>
-        <module>hello-ribbon</module>
-        <module>hello-ribbon-springboot</module>
+        <module>hello-world</module>
     </modules>
-
 
 </project>

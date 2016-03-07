@@ -16,7 +16,6 @@
 
 package io.fabric8.kubeflix.ribbon;
 
-import com.netflix.client.config.CommonClientConfigKey;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.AbstractServerList;
 import com.netflix.loadbalancer.Server;
@@ -41,7 +40,7 @@ public class KubernetesServerList extends AbstractServerList<Server> implements 
 
     private String name;
     private String namespace;
-    private String vipAddresses;
+    private String portName;
     private KubernetesClient client;
 
     public KubernetesServerList() {
@@ -55,10 +54,8 @@ public class KubernetesServerList extends AbstractServerList<Server> implements 
         this.clientConfig = clientConfig;
         this.client = new DefaultKubernetesClient();
         this.name = clientConfig.getClientName();
-        //Use the specified namespace if provided or fallback to the "current"
-        //this.namespace = Utils.isNotNullOrEmpty(clientConfig.getNameSpace()) ? clientConfig.getNameSpace() : client.getNamespace();
-        this.namespace = client.getNamespace();
-        this.vipAddresses = clientConfig.getPropertyAsString(CommonClientConfigKey.DeploymentContextBasedVipAddresses, null);
+        this.namespace = clientConfig.getPropertyAsString(KubernetesConfigKey.Namespace, client.getNamespace());
+        this.portName = clientConfig.getPropertyAsString(KubernetesConfigKey.PortName, null);
     }
 
     public List<Server> getInitialListOfServers() {
@@ -78,7 +75,7 @@ public class KubernetesServerList extends AbstractServerList<Server> implements 
                     }
                 } else {
                     for (EndpointPort port : subset.getPorts()) {
-                        if (Utils.isNullOrEmpty(vipAddresses) || vipAddresses.endsWith(port.getName())) {
+                        if (Utils.isNullOrEmpty(portName) || portName.endsWith(port.getName())) {
                             for (EndpointAddress address : subset.getAddresses()) {
                                 result.add(new Server(address.getIp(), port.getPort()));
                             }

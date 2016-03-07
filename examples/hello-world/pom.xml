@@ -19,37 +19,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>kubeflix-project</artifactId>
+        <artifactId>examples</artifactId>
         <groupId>io.fabric8.kubeflix</groupId>
         <version>1.0.10-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.fabric8.kubeflix</groupId>
-    <artifactId>ribbon-discovery</artifactId>
-    <name>Fabric8 :: Kubeflix :: Ribbon :: Discovery</name>
+    <artifactId>hello-world-example</artifactId>
+    <name>Fabric8 :: Kubeflix :: Examples :: Hello World</name>
+    <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.netflix.ribbon</groupId>
-            <artifactId>ribbon-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.netflix.ribbon</groupId>
-            <artifactId>ribbon-loadbalancer</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.fabric8</groupId>
-            <artifactId>kubernetes-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>19.0</version>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>hello-hystrix</module>
+        <module>hello-ribbon</module>
+        <module>hello-ribbon-springboot</module>
+    </modules>
 
 </project>

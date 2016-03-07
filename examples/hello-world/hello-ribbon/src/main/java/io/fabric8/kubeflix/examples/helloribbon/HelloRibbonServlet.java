@@ -38,7 +38,6 @@ import java.io.PrintWriter;
 public class HelloRibbonServlet extends HttpServlet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloRibbonServlet.class);
-
     private IClientConfig config = IClientConfig.Builder.newBuilder().withDefaultValues().build()
             .set(IClientConfigKey.Keys.NIWSServerListClassName, KubernetesServerList.class.getName());
 
@@ -52,8 +51,8 @@ public class HelloRibbonServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
 
+        resp.setContentType("text/html");
         final PrintWriter out = resp.getWriter();
         template.requestBuilder()
                 .build()

@@ -19,16 +19,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>examples</artifactId>
         <groupId>io.fabric8.kubeflix</groupId>
+        <artifactId>hello-world-example</artifactId>
         <version>1.0.10-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.fabric8.kubeflix.examples</groupId>
-    <artifactId>hello-hystrix</artifactId>
+    <groupId>io.fabric8.kubeflix</groupId>
+    <artifactId>hello-ribbon</artifactId>
     <packaging>war</packaging>
-    <name>Fabric8 :: Kubeflix :: Examples :: Hello Hystrix</name>
+    <name>Fabric8 :: Kubeflix :: Examples :: Hello Ribbon</name>
 
     <properties>
         <docker.from>fabric8/jetty-9:1.0.0</docker.from>
@@ -44,14 +44,29 @@
         <fabric8.service.type>LoadBalancer</fabric8.service.type>
         <fabric8.label.hystrix.enabled>true</fabric8.label.hystrix.enabled>
         <fabric8.label.hystrix.cluster>default</fabric8.label.hystrix.cluster>
+
+        <fabric8.serviceAccount>fabric8</fabric8.serviceAccount>
+
     </properties>
 
-
     <dependencies>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.fabric8.kubeflix</groupId>
+            <artifactId>ribbon-discovery</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.netflix.archaius</groupId>
+            <artifactId>archaius-core</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-core</artifactId>
@@ -60,12 +75,49 @@
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-metrics-event-stream</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.netflix.ribbon</groupId>
+            <artifactId>ribbon-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.netflix.ribbon</groupId>
+            <artifactId>ribbon</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.netflix.ribbon</groupId>
+            <artifactId>ribbon-transport</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>io.reactivex</groupId>
             <artifactId>rxjava</artifactId>
         </dependency>
-    </dependencies>
 
+        <dependency>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxnetty</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-buffer</artifactId>
+            <version>4.0.29.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -94,7 +146,8 @@
                                     <descriptorRef>${docker.assemblyDescriptorRef}</descriptorRef>
                                 </assembly>
                                 <env>
-                                    <CATALINA_OPTS>-javaagent:/opt/tomcat/jolokia-agent.jar=host=0.0.0.0,port=8778</CATALINA_OPTS>
+                                    <CATALINA_OPTS>-javaagent:/opt/tomcat/jolokia-agent.jar=host=0.0.0.0,port=8778
+                                    </CATALINA_OPTS>
                                 </env>
                             </build>
                         </image>
@@ -124,4 +177,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
