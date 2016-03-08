@@ -14,6 +14,11 @@
 # limitations under the License.
 #
 
+machine:
+  java:
+    version: oraclejdk8
+  environment:
+    JAVA_OPTS: "-Xms256m -Xmx512m"
 dependencies:
   override:
     - mvn install -DskipTests -U
