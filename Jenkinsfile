@@ -6,6 +6,7 @@ node{
   def pom = readMavenPom file: 'pom.xml'
 
   def githubOrganisation = 'fabric8io'
+  def projectName = 'kubeflix'
   def dockerOrganisation = 'fabric8'
   def artifactIdToWatchInCentral = 'turbine-server'
   def imagesToPromoteToDockerHub = ['hystrix-dashboard','turbine-server']
@@ -29,30 +30,28 @@ node{
     sh 'chmod 600 /root/.gnupg/trustdb.gpg'
     sh 'chmod 700 /root/.gnupg'
 
-    checkout scm
-
-    sh "git remote set-url origin git@github.com:${githubOrganisation}/${pom.artifactId}.git"
+    sh "git remote set-url origin git@github.com:${githubOrganisation}/${projectName}.git"
 
     def stagedProject = stageProject{
-      project = githubOrganisation+"/"+pom.artifactId
+      project = githubOrganisation+"/"+projectName
     }
 
     String pullRequestId = release {
       projectStagingDetails = stagedProject
-      project = githubOrganisation+"/"+pom.artifactId
+      project = githubOrganisation+"/"+projectName
       helmPush = false
     }
 
     promoteImages{
       toRegistry = 'docker.io'
       org = dockerOrganisation
-      project = pom.artifactId
-      images = []
+      project = projectName
+      images = imagesToPromoteToDockerHub
       tag = stagedProject[1]
     }
 
     waitUntilPullRequestMerged{
-      name = githubOrganisation+"/"+pom.artifactId
+      name = githubOrganisation+"/"+projectName
       prId = pullRequestId
     }
 
