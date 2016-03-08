@@ -79,7 +79,7 @@
                         <image>
                             <name>${docker.image}</name>
                             <build>
-                                <from>java:8u40</from>
+                                <from>${docker.from}</from>
                                 <assembly>
                                     <basedir>/app</basedir>
                                     <descriptorRef>artifact</descriptorRef>
