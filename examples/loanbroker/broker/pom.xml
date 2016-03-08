@@ -31,7 +31,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <docker.from>java:8u40</docker.from>
+        <docker.from>docker.io/java:8u40</docker.from>
         <fabric8.dockerUser>fabric8/</fabric8.dockerUser>
         <docker.image>${fabric8.dockerUser}${project.artifactId}:${project.version}</docker.image>
         <docker.port.container.http>8080</docker.port.container.http>
