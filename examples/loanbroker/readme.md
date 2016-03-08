@@ -43,7 +43,11 @@ To create a bank
     cd examples/loanbroker/bank
     mvn clean package docker:build fabric8:apply -Dbank.id=<bank's id> -Dbank.name=<bank's name> -Dbank.rate=<base rate>
 
-You can create as many banks as you like by repeating the last command with different arguments.
+You can create as many banks as you like by repeating the last command with different arguments. For example:
+
+    mvn clean package docker:build fabric8:apply -Dbank.id=bank1 -Dbank.name="Bank One" -Dbank.rate=15
+    mvn clean package docker:build fabric8:apply -Dbank.id=bank2 -Dbank.name="Bank Two" -Dbank.rate=20
+    mvn clean package docker:build fabric8:apply -Dbank.id=bank3 -Dbank.name="Bank Three" -Dbank.rate=25
 
 ### The Broker
 
