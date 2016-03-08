@@ -1,6 +1,8 @@
 #!/usr/bin/groovy
 node{
 
+  checkout scm
+
   def pom = readMavenPom file: 'pom.xml'
 
   def githubOrganisation = 'fabric8io'
@@ -26,8 +28,6 @@ node{
     sh 'chmod 600 /root/.gnupg/secring.gpg'
     sh 'chmod 600 /root/.gnupg/trustdb.gpg'
     sh 'chmod 700 /root/.gnupg'
-
-    checkout scm
 
     sh "git remote set-url origin git@github.com:${githubOrganisation}/${pom.artifactId}.git"
 
