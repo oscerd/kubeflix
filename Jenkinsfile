@@ -9,6 +9,7 @@ node{
   def projectName = 'kubeflix'
   def dockerOrganisation = 'fabric8'
   def artifactIdToWatchInCentral = 'turbine-server'
+  def artifactIdToWatchInCentralExtension = 'war'
   def imagesToPromoteToDockerHub = ['hystrix-dashboard','turbine-server']
 
   kubernetes.pod('buildpod').withImage('fabric8/maven-builder:1.0')
@@ -61,7 +62,7 @@ node{
       groupId = pom.groupId
       artifactId = artifactIdToWatchInCentral
       version = stagedProject[1]
-      ext = 'jar'
+      ext = artifactIdToWatchInCentralExtension
     }
   }
 }
