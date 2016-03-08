@@ -17,6 +17,7 @@
 package io.fabric8.kubeflix.examples.loanbroker.bank;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,9 @@ public class BankController {
     private RestTemplate restTemplate;
 
     @RequestMapping("/quote")
-    @HystrixCommand(fallbackMethod = "fallbackQuote")
+    @HystrixCommand(fallbackMethod = "fallbackQuote", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000")
+    })
     public Quote quote(@RequestParam("ssn") Long ssn, @RequestParam("duration") Integer duration) {
         Integer score = restTemplate.getForObject("http://credit-bureau/eval", Integer.class, ssn);
         Double rate = baseRate + (double) (duration / 12) / 10 + (double) (1000 - score) / 1000;

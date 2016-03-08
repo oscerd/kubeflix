@@ -18,6 +18,7 @@ package io.fabric8.kubeflix.examples.loanbroker.broker;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandProperties;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceSpec;
 import io.fabric8.kubernetes.client.utils.URLUtils;
@@ -28,13 +29,16 @@ import org.springframework.web.client.RestTemplate;
 public class RequestQuoteCommand extends HystrixCommand<Quote> {
 
     private final ClientHttpRequestFactory httpRequestFactory = new SimpleClientHttpRequestFactory();
+    private final RestTemplate template = new RestTemplate(httpRequestFactory);
 
     private final Service service;
     private final Long ssn;
     private final Integer duration;
 
     protected RequestQuoteCommand(Service service, Long ssn, Integer duration) {
-        super(HystrixCommandGroupKey.Factory.asKey(service.getMetadata().getName()));
+        super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(service.getMetadata().getName()))
+                .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
+                        .withExecutionTimeoutInMilliseconds(5000)));
         this.service = service;
         this.ssn = ssn;
         this.duration = duration;
@@ -42,8 +46,7 @@ public class RequestQuoteCommand extends HystrixCommand<Quote> {
 
     @Override
     protected Quote run() throws Exception {
-        String url = URLUtils.join(getServiceURL(service) , "/quote?ssn="+ssn+"&duration="+duration);
-        RestTemplate template = new RestTemplate(httpRequestFactory);
+        String url = URLUtils.join(getServiceURL(service), "/quote?ssn=" + ssn + "&duration=" + duration);
         return template.getForEntity(url, Quote.class).getBody();
     }
 
