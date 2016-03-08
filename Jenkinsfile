@@ -29,6 +29,8 @@ node{
     sh 'chmod 600 /root/.gnupg/trustdb.gpg'
     sh 'chmod 700 /root/.gnupg'
 
+    checkout scm
+
     sh "git remote set-url origin git@github.com:${githubOrganisation}/${pom.artifactId}.git"
 
     def stagedProject = stageProject{
