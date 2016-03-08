@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.fabric8.kubeflix.examples.hellospringbootribbon;
+package io.fabric8.kubeflix.examples.loanbroker.bank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +23,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClient;
 
 @SpringBootApplication
 @EnableCircuitBreaker
-@RibbonClient(name = "hello-hystrix", configuration = HelloRibbonConfiguration.class)
+@RibbonClient(name = "credit-bureau", configuration = CreditRibbonConfiguration.class)
 public class Application {
 
     public static void main(String[] args) {

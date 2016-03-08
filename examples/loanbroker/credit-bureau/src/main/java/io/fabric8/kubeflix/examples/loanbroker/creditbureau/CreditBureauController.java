@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package io.fabric8.kubeflix.examples.hellospringbootribbon;
+package io.fabric8.kubeflix.examples.loanbroker.creditbureau;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
-@EnableCircuitBreaker
-@RibbonClient(name = "hello-hystrix", configuration = HelloRibbonConfiguration.class)
-public class Application {
+import java.util.Random;
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+@RestController
+public class CreditBureauController {
+
+    @RequestMapping("/eval")
+    public Integer eval(@RequestParam("ssn") Long ssn) {
+        Random random = new Random(ssn);
+        return random.nextInt(1000);
     }
+
 }

@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package io.fabric8.kubeflix.examples.hellospringbootribbon;
+package io.fabric8.kubeflix.examples.loanbroker.creditbureau;
 
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@RibbonClient(name = "hello-hystrix", configuration = HelloRibbonConfiguration.class)
-public class HelloConfiguration {
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 }
