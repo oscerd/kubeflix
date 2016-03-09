@@ -3,6 +3,12 @@ Kubeflix: Kubernetes integration of Netflix components
 
 This project provides [Kubernetes](http://kubernetes.io/) integration with [Netlix](https://netflix.github.io/) open source components such as [Hystrix](https://github.com/Netflix/Hystrix), [Turbine](https://github.com/Netflix/Turbine) and [Ribbon](https://github.com/Netflix/Ribbon).
 
+<p align="center">
+  <a href="http://github.com/fabric8io/kubeflix/">
+  	<img src="https://raw.githubusercontent.com/fabric8io/kubeflix/master/docs/images/logo.png" height="200" width="200" alt="kubeflix logo"/>
+  </a>
+</p>
+
 Specifically it provides:
 
 * Kubernetes Instance Discovery for Turbine and Ribbon
