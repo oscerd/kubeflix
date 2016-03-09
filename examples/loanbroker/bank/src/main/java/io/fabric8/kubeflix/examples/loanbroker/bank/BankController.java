@@ -40,17 +40,17 @@ public class BankController {
     private RestTemplate restTemplate;
 
     @RequestMapping("/quote")
-    @HystrixCommand(fallbackMethod = "fallbackQuote", commandProperties = {
+    @HystrixCommand(commandKey = "RequestScoreFromCreditBureau", fallbackMethod = "fallbackQuote", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000")
     })
-    public Quote quote(@RequestParam("ssn") Long ssn, @RequestParam("duration") Integer duration) {
+    public Quote quote(@RequestParam("ssn") Long ssn, @RequestParam("amount") Double amount, @RequestParam("duration") Integer duration) {
         Integer score = restTemplate.getForObject("http://credit-bureau/eval", Integer.class, ssn);
         Double rate = baseRate + (double) (duration / 12) / 10 + (double) (1000 - score) / 1000;
-        return new Quote(bankName, rate);
+        return new Quote(bankName, rate, amount, duration);
     }
 
-    public Quote fallbackQuote(@RequestParam("ssn") Long ssn, @RequestParam("duration") Integer duration) {
+    public Quote fallbackQuote(@RequestParam("ssn") Long ssn, @RequestParam("amount") Double amount, @RequestParam("duration") Integer duration) {
         Double rate = baseRate + (double) (duration / 12) / 10 + (double) (1000 - FALLBACK_SCORE) / 1000;
-        return new Quote(bankName, rate);
+        return new Quote(bankName, rate, amount, duration);
     }
 }

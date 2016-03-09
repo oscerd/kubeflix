@@ -43,11 +43,11 @@ public class BrokerController {
 
 
     @RequestMapping("/quote")
-    public List<Quote> quote(@RequestParam("ssn") Long ssn, @RequestParam("duration") Integer duration) throws InterruptedException, ExecutionException, TimeoutException {
+    public List<Quote> quote(@RequestParam("ssn") Long ssn, @RequestParam("amount") Double amount, @RequestParam("duration") Integer duration) throws InterruptedException, ExecutionException, TimeoutException {
         //Broadcast requests async
         List<CompletableFuture<Quote>> futures =
                 client.services().withLabel(PROJECT_NAME, LOADBALANCER_BANK).list().getItems().stream()
-                        .map(s -> this.requestQuoteAsync(s, ssn, duration))
+                        .map(s -> this.requestQuoteAsync(s, ssn, amount, duration))
                         .collect(Collectors.toList());
 
         //Collect the results
@@ -56,12 +56,12 @@ public class BrokerController {
                         .map(CompletableFuture::join)
                         .collect(Collectors.toList()));
 
-        return result.get(30, TimeUnit.SECONDS);
+        return result.get(15, TimeUnit.SECONDS);
     }
 
-    public CompletableFuture<Quote> requestQuoteAsync(Service service, final Long ssn, final Integer duration) {
+    public CompletableFuture<Quote> requestQuoteAsync(Service service, final Long ssn, final Double amount, final Integer duration) {
         return CompletableFuture.supplyAsync(() -> {
-            return new RequestQuoteCommand(service, ssn, duration).execute();
+            return new RequestQuoteFromBankCommand(service, ssn, amount, duration).execute();
         }, executorService);
     }
 }

@@ -17,17 +17,20 @@
 package io.fabric8.kubeflix.examples.loanbroker.bank;
 
 public class Quote {
-
     private String name;
     private Double rate;
+    private Double amount;
+    private Integer duration;
 
     public Quote() {
 
     }
 
-    public Quote(String name, Double rate) {
+    public Quote(String name, Double rate, Double amount, Integer duration) {
         this.name = name;
         this.rate = rate;
+        this.amount = amount;
+        this.duration = duration;
     }
 
     public String getName() {
@@ -46,11 +49,19 @@ public class Quote {
         this.rate = rate;
     }
 
-    @Override
-    public String toString() {
-        return "Quote{" +
-                "name='" + name + '\'' +
-                ", rate=" + rate +
-                '}';
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 }
