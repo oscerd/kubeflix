@@ -42,6 +42,7 @@
         <fabric8.serviceAccount>fabric8</fabric8.serviceAccount>
         <fabric8.label.hystrix.enabled>true</fabric8.label.hystrix.enabled>
         <fabric8.label.hystrix.cluster>default</fabric8.label.hystrix.cluster>
+        <fabric8.iconUrl>https://raw.githubusercontent.com/fabric8io/kubeflix/master/examples/loanbroker/bank/src/main/fabric8/logo.png</fabric8.iconUrl>
         <fabric8.env.BANK_NAME>KuBank</fabric8.env.BANK_NAME>
         <fabric8.env.BASE_RATE>10</fabric8.env.BASE_RATE>
     </properties>
