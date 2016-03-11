@@ -35,11 +35,13 @@ node{
 
     def stagedProject = stageProject{
       project = githubOrganisation+"/"+projectName
+      useGitTagForNextVersion = true
     }
 
     String pullRequestId = release {
       projectStagingDetails = stagedProject
       project = githubOrganisation+"/"+projectName
+      useGitTagForNextVersion = true
       helmPush = false
     }
 
@@ -51,9 +53,11 @@ node{
       tag = stagedProject[1]
     }
 
-    waitUntilPullRequestMerged{
-      name = githubOrganisation+"/"+projectName
-      prId = pullRequestId
+    if (pullRequestId != null && pullRequestId.size() > 0){
+      waitUntilPullRequestMerged{
+        name = githubOrganisation+"/"+projectName
+        prId = pullRequestId
+      }
     }
 
     // lets check for turbine-server jar to detect when sonartype -> central sync has happened
