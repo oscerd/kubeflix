@@ -43,7 +43,7 @@
         <fabric8.service.containerPort>8080</fabric8.service.containerPort>
         <fabric8.service.type>LoadBalancer</fabric8.service.type>
         <fabric8.serviceAccount>fabric8</fabric8.serviceAccount>
-        <fabric8.iconUrl>https://raw.githubusercontent.com/fabric8io/kubeflix/master/turbine-serve/src/main/fabric8/logo.png</fabric8.iconUrl>
+        <fabric8.iconUrl>https://raw.githubusercontent.com/fabric8io/kubeflix/master/turbine-server/src/main/fabric8/logo.png</fabric8.iconUrl>
     </properties>
 
     <dependencies>
