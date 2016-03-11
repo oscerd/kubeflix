@@ -12,7 +12,7 @@ node{
   def artifactIdToWatchInCentralExtension = 'war'
   def imagesToPromoteToDockerHub = ['hystrix-dashboard','turbine-server']
 
-  kubernetes.pod('buildpod').withImage('fabric8/maven-builder:1.0')
+  kubernetes.pod('buildpod').withImage('fabric8/maven-builder:1.1')
   .withPrivileged(true)
   .withHostPathMount('/var/run/docker.sock','/var/run/docker.sock')
   .withEnvVar('DOCKER_CONFIG','/root/.docker/')
