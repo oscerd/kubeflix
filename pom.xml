@@ -104,6 +104,7 @@
         <module>turbine-server</module>
         <module>hystrix-dashboard</module>
         <module>examples</module>
+        <module>packages</module>
     </modules>
 
     <dependencyManagement>
