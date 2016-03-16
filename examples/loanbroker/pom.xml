@@ -34,6 +34,7 @@
         <module>credit-bureau</module>
         <module>bank</module>
         <module>broker</module>
+        <module>generator</module>
     </modules>
 
 </project>
