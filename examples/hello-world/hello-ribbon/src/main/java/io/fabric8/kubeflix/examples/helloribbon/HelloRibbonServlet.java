@@ -16,14 +16,20 @@
 
 package io.fabric8.kubeflix.examples.helloribbon;
 
+import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
+import com.netflix.hystrix.HystrixCommandProperties;
+import com.netflix.hystrix.HystrixInvokableInfo;
+import com.netflix.hystrix.HystrixObservableCommand;
 import com.netflix.ribbon.ClientOptions;
 import com.netflix.ribbon.Ribbon;
 import com.netflix.ribbon.http.HttpRequestTemplate;
 import com.netflix.ribbon.http.HttpResourceGroup;
+import com.netflix.ribbon.hystrix.FallbackHandler;
 import io.fabric8.kubeflix.ribbon.KubernetesClientConfig;
 import io.netty.buffer.ByteBuf;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.netty.buffer.Unpooled;
+import rx.Observable;
 import rx.functions.Action1;
 
 import javax.servlet.ServletException;
@@ -32,17 +38,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
+
 
 public class HelloRibbonServlet extends HttpServlet {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HelloRibbonServlet.class);
-
     private HttpResourceGroup group = Ribbon.createHttpResourceGroupBuilder("hello-hystrix")
-            .withClientOptions(ClientOptions.from(new KubernetesClientConfig())).build();
+            .withClientOptions(
+                    ClientOptions.from(new KubernetesClientConfig())
+            ).build();
 
     private HttpRequestTemplate<ByteBuf> template = group.newTemplateBuilder("HelloRibbon")
             .withMethod("GET")
             .withUriTemplate("/hello")
+            .withHystrixProperties(
+                    HystrixObservableCommand.Setter
+                            .withGroupKey(HystrixCommandGroupKey.Factory.asKey("HelloRibbonGroup"))
+                            .andCommandKey(HystrixCommandKey.Factory.asKey("HelloRibbon"))
+                            .andCommandPropertiesDefaults(
+                                    HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(5000)
+                            )
+            ).withFallbackProvider(new HelloFallbackProvider())
             .build();
 
     @Override
@@ -62,5 +78,14 @@ public class HelloRibbonServlet extends HttpServlet {
                 out.println("<h1>" + next + "</h1>");
             }
         });
+    }
+
+    private class HelloFallbackProvider implements FallbackHandler<ByteBuf> {
+        private static final String FALLBACK_MESSAGE = "Fallback Hello from HelloRibbonServlet";
+        @Override
+        public Observable<ByteBuf> getFallback(HystrixInvokableInfo<?> hystrixInfo, Map<String, Object> requestProperties) {
+
+            return Observable.just(Unpooled.copiedBuffer(FALLBACK_MESSAGE.getBytes()));
+        }
     }
 }
