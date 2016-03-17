@@ -17,6 +17,7 @@
 package io.fabric8.kubeflix.examples.hellospringbootribbon;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,9 @@ public class HelloController {
     private RestTemplate restTemplate;
 
     @RequestMapping("/hello")
-    @HystrixCommand(fallbackMethod = "helloFallback")
+    @HystrixCommand(fallbackMethod = "helloFallback", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000")
+    })
     public String hello() {
         return restTemplate.getForObject("http://hello-hystrix/hello", String.class);
     }
