@@ -19,15 +19,15 @@ package io.fabric8.kubeflix.ribbon;
 import com.netflix.client.config.CommonClientConfigKey;
 import com.netflix.client.config.DefaultClientConfigImpl;
 
-public  class KubernetesClinetConfig extends DefaultClientConfigImpl {
+public  class KubernetesClientConfig extends DefaultClientConfigImpl {
 
-    public KubernetesClinetConfig() {
+    public KubernetesClientConfig() {
         super();
         loadDefaultValues();
         set(CommonClientConfigKey.Keys.NIWSServerListClassName, KubernetesServerList.class.getCanonicalName());
     }
 
-    public KubernetesClinetConfig(String nameSpace) {
+    public KubernetesClientConfig(String nameSpace) {
         super(nameSpace);
         loadDefaultValues();
         set(CommonClientConfigKey.Keys.NIWSServerListClassName, KubernetesServerList.class.getCanonicalName());
