@@ -58,10 +58,24 @@ Discovery is done via Kubernetes services (it discovers all services with the la
 
 Internally the broker is using Spring's Rest Template to communicate with the Banks and each request is wrapped inside Hystrix command.
 
-To build and create the broker
+To build and create the broker:
 
     cd examples/loanbroker/broker
     mvn clean package docker:build fabric8:apply   
+
+Once the broker has been created you can send http requests to to the broker url, for example:
+    
+    curl http://loanbroker-broker.vagrant.f8/quote?ssn=12345678&duration=12&amount=10000
+
+
+### The Generator
+
+To generate the requests automatically a small generator app has been added to the loanbroker example. Its a simple camel/springboot application that generates random loan requests to the rboker.
+
+To build and create the generator:
+
+    cd examples/loanbroker/broker
+    mvn clean package docker:build fabric8:apply
     
 ### Using the Turbine Server and Hystrix Dashboard
 
