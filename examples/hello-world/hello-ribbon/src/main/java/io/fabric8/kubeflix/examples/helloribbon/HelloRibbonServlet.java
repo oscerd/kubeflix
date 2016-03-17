@@ -20,7 +20,7 @@ import com.netflix.ribbon.ClientOptions;
 import com.netflix.ribbon.Ribbon;
 import com.netflix.ribbon.http.HttpRequestTemplate;
 import com.netflix.ribbon.http.HttpResourceGroup;
-import io.fabric8.kubeflix.ribbon.KubernetesClinetConfig;
+import io.fabric8.kubeflix.ribbon.KubernetesClientConfig;
 import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public class HelloRibbonServlet extends HttpServlet {
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloRibbonServlet.class);
 
     private HttpResourceGroup group = Ribbon.createHttpResourceGroupBuilder("hello-hystrix")
-            .withClientOptions(ClientOptions.from(new KubernetesClinetConfig())).build();
+            .withClientOptions(ClientOptions.from(new KubernetesClientConfig())).build();
 
     private HttpRequestTemplate<ByteBuf> template = group.newTemplateBuilder("HelloRibbon")
             .withMethod("GET")
