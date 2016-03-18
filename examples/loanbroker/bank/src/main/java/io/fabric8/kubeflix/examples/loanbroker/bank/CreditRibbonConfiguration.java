@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
 public class CreditRibbonConfiguration {
 
     @Value("${credit.ribbon.client.name}")
-    private String name = "credit-bureau";
+    private String name = "loanbroker-credit-bureau";
 
     @Bean
     public IClientConfig ribbonClientConfig() {

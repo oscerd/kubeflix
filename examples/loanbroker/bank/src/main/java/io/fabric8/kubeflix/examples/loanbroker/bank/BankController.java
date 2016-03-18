@@ -44,7 +44,7 @@ public class BankController {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000")
     })
     public Quote quote(@RequestParam("ssn") Long ssn, @RequestParam("amount") Double amount, @RequestParam("duration") Integer duration) {
-        Integer score = restTemplate.getForObject("http://credit-bureau/eval", Integer.class, ssn);
+        Integer score = restTemplate.getForObject("http://loanbroker-credit-bureau/eval?ssn={ssn}", Integer.class, ssn);
         Double rate = baseRate + (double) (duration / 12) / 10 + (double) (1000 - score) / 1000;
         return new Quote(bankName, rate, amount, duration);
     }
