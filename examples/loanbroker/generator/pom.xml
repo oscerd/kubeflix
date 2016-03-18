@@ -44,6 +44,7 @@
         <fabric8.serviceAccount>fabric8</fabric8.serviceAccount>
         <fabric8.label.hystrix.enabled>true</fabric8.label.hystrix.enabled>
         <fabric8.label.hystrix.cluster>default</fabric8.label.hystrix.cluster>
+        <fabric8.label.demo.name>loanbroker</fabric8.label.demo.name>
     </properties>
 
     <dependencyManagement>
