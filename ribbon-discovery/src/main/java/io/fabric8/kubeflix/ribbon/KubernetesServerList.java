@@ -27,6 +27,8 @@ import io.fabric8.kubernetes.api.model.Endpoints;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +37,7 @@ import java.util.List;
 public class KubernetesServerList extends AbstractServerList<Server> implements ServerList<Server> {
 
     private static final int FIRST = 0;
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesServerList.class);
 
     private IClientConfig clientConfig;
 
@@ -66,6 +69,11 @@ public class KubernetesServerList extends AbstractServerList<Server> implements 
         Endpoints endpoints = client.endpoints().inNamespace(namespace).withName(name).get();
         List<Server> result = new ArrayList<Server>();
         if (endpoints != null) {
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Found [" + endpoints.getSubsets().size() + "] endpoints in namespace [" +
+                        namespace + "] for name [" + name + "] and portName [" + portName + "]");
+            }
             for (EndpointSubset subset : endpoints.getSubsets()) {
 
                 if (subset.getPorts().size() == 1) {
@@ -83,6 +91,10 @@ public class KubernetesServerList extends AbstractServerList<Server> implements 
                     }
                 }
             }
+        }
+        else {
+            LOG.warn("Did not find any endpoints in ribbon in namespace [" + namespace + "] for name [" +
+                    name + "] and portName [" + portName + "]");
         }
         return result;
     }
