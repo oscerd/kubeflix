@@ -29,6 +29,11 @@ public class HelloController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @RequestMapping("/ready")
+    public String ready() {
+        return "true";
+    }
+
     @RequestMapping("/hello")
     @HystrixCommand(fallbackMethod = "helloFallback", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000")

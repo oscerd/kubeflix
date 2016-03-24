@@ -31,6 +31,12 @@
         <servlet-class>io.fabric8.kubeflix.examples.hellohystrix.HelloHystrixServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <display-name>ReadinessServlet</display-name>
+        <servlet-name>ReadinessServlet</servlet-name>
+        <servlet-class>io.fabric8.kubeflix.examples.hellohystrix.ReadinessServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>HystrixMetricsStreamServlet</servlet-name>
         <url-pattern>/hystrix.stream</url-pattern>
@@ -39,6 +45,11 @@
     <servlet-mapping>
         <servlet-name>HelloHystrixServlet</servlet-name>
         <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ReadinessServlet</servlet-name>
+        <url-pattern>/ready</url-pattern>
     </servlet-mapping>
 
 </web-app>

@@ -14,26 +14,21 @@
  * limitations under the License.
  */
 
-package io.fabric8.kubeflix.examples.loanbroker.creditbureau;
+package io.fabric8.kubeflix.examples.helloribbon;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import java.util.Random;
+public class ReadinessServlet extends HttpServlet {
 
-@RestController
-public class CreditBureauController {
-
-    @RequestMapping("/ready")
-    public String ready() {
-        return "true";
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html");
+        PrintWriter out = resp.getWriter();
+        out.println("<h1>true</h1>");
     }
-
-    @RequestMapping("/eval")
-    public Integer eval(@RequestParam("ssn") Long ssn) {
-        Random random = new Random(ssn);
-        return random.nextInt(1000);
-    }
-
 }
