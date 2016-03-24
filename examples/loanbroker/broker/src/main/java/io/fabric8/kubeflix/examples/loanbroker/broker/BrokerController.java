@@ -41,6 +41,10 @@ public class BrokerController {
     private final KubernetesClient client = new DefaultKubernetesClient();
     private final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
+    @RequestMapping("/ready")
+    public String ready() {
+        return "true";
+    }
 
     @RequestMapping("/quote")
     public List<Quote> quote(@RequestParam("ssn") Long ssn, @RequestParam("amount") Double amount, @RequestParam("duration") Integer duration) throws InterruptedException, ExecutionException, TimeoutException {
