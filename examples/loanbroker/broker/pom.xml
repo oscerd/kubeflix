@@ -41,6 +41,9 @@
         <fabric8.service.containerPort>8080</fabric8.service.containerPort>
         <fabric8.service.type>LoadBalancer</fabric8.service.type>
         <fabric8.iconUrl>https://raw.githubusercontent.com/fabric8io/kubeflix/master/examples/loanbroker/broker/src/main/fabric8/icon.png</fabric8.iconUrl>
+        <fabric8.readinessProbe.httpGet.path>/ready</fabric8.readinessProbe.httpGet.path>
+        <fabric8.readinessProbe.httpGet.port>8080</fabric8.readinessProbe.httpGet.port>
+        <fabric8.readinessProbe.initialDelaySeconds>5</fabric8.readinessProbe.initialDelaySeconds>
         <fabric8.serviceAccount>fabric8</fabric8.serviceAccount>
         <fabric8.label.hystrix.enabled>true</fabric8.label.hystrix.enabled>
         <fabric8.label.hystrix.cluster>default</fabric8.label.hystrix.cluster>

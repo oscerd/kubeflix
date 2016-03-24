@@ -28,6 +28,11 @@ public class HelloController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @RequestMapping("/ready")
+    public String ready() {
+        return "true";
+    }
+
     @RequestMapping("/hello")
     @HystrixCommand(fallbackMethod = "helloFallback")
     public String hello() {
