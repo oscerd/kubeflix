@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package io.fabric8.kubeflix.examples.hellospringbootribbon;
+package io.fabric8.kubeflix.examples.zuul;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
 
-@SpringBootApplication
-@EnableCircuitBreaker
+@Configuration
+@ComponentScan
+@EnableAutoConfiguration
 @EnableDiscoveryClient
-public class Application {
+@Controller
+@EnableZuulProxy
+public class ZuulProxyApplication {
+
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        new SpringApplicationBuilder(ZuulProxyApplication.class).web(true).run(args);
     }
 }
