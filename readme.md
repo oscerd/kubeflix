@@ -104,3 +104,4 @@ The dashboard can be accessed at:  http://hystrix-dashboard.vagrant.f8:8080 (or 
 
 * [Hello World](examples/hello-world/readme.md)
 * [Loan Broker](examples/loanbroker/readme.md)
+* [Zuul Proxy](examples/zuul-proxy/readme.md)

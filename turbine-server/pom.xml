@@ -45,7 +45,6 @@
         <fabric8.serviceAccount>turbine</fabric8.serviceAccount>
         <fabric8.serviceAccountCreate>true</fabric8.serviceAccountCreate>
         <fabric8.iconUrl>https://raw.githubusercontent.com/fabric8io/kubeflix/master/turbine-server/src/main/fabric8/logo.png</fabric8.iconUrl>
-
         <fabric8.annotations.service.servicepath>/turbine.stream</fabric8.annotations.service.servicepath>
     </properties>
 

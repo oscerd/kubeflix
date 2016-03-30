@@ -39,11 +39,6 @@ public class BankController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @RequestMapping("/ready")
-    public String ready() {
-        return "true";
-    }
-
     @RequestMapping("/quote")
     @HystrixCommand(commandKey = "RequestScoreFromCreditBureau", fallbackMethod = "fallbackQuote", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "5000")
