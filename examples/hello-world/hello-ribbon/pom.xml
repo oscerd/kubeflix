@@ -28,7 +28,7 @@
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>hello-ribbon</artifactId>
     <packaging>war</packaging>
-    <name>Fabric8 :: Kubeflix :: Examples :: Hello Ribbon</name>
+    <name>Kubeflix :: Examples :: Hello Ribbon</name>
 
     <properties>
         <docker.from>docker.io/fabric8/jetty-9:1.0.0</docker.from>

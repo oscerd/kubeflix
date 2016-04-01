@@ -27,7 +27,7 @@
 
     <groupId>io.fabric8.kubeflix.examples</groupId>
     <artifactId>loanbroker-credit-bureau</artifactId>
-    <name>Fabric8 :: Kubeflix :: Examples :: LoanBroker :: Credit Bureau</name>
+    <name>Kubeflix :: Examples :: LoanBroker :: Credit Bureau</name>
 
     <properties>
         <java.version>1.8</java.version>

@@ -27,7 +27,7 @@
 
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>ribbon-discovery</artifactId>
-    <name>Fabric8 :: Kubeflix :: Ribbon :: Discovery</name>
+    <name>Kubeflix :: Ribbon :: Discovery</name>
 
     <dependencies>
         <dependency>

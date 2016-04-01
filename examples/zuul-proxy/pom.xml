@@ -27,7 +27,7 @@
 
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>zuul-server</artifactId>
-    <name>Fabric8 :: Kubeflix :: Examples :: Zuul Proxy</name>
+    <name>Kubeflix :: Examples :: Zuul Proxy</name>
 
     <properties>
         <java.version>1.8</java.version>

@@ -27,7 +27,7 @@
 
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>turbine-discovery</artifactId>
-    <name>Fabric8 :: Kubeflix :: Turbine :: Discovery</name>
+    <name>Kubeflix :: Turbine :: Discovery</name>
 
     <dependencies>
         <dependency>

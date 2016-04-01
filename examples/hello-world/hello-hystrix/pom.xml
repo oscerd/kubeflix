@@ -28,7 +28,7 @@
     <groupId>io.fabric8.kubeflix.examples</groupId>
     <artifactId>hello-hystrix</artifactId>
     <packaging>war</packaging>
-    <name>Fabric8 :: Kubeflix :: Examples :: Hello Hystrix</name>
+    <name>Kubeflix :: Examples :: Hello Hystrix</name>
 
     <properties>
         <docker.from>docker.io/fabric8/jetty-9:1.0.0</docker.from>

@@ -30,7 +30,7 @@
     <artifactId>kubeflix-project</artifactId>
     <version>1.0.12-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Fabric8 :: Kubeflix :: Project</name>
+    <name>Kubeflix :: Project</name>
 
     <url>http://fabric8.io/</url>
     <inceptionYear>2015</inceptionYear>

@@ -27,7 +27,7 @@
 
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>hello-ribbon-spring-boot</artifactId>
-    <name>Fabric8 :: Kubeflix :: Examples :: Hello Ribbon (Sprint Boot)</name>
+    <name>Kubeflix :: Examples :: Hello Ribbon (Sprint Boot)</name>
 
     <properties>
         <java.version>1.8</java.version>

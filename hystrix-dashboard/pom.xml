@@ -28,7 +28,7 @@
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>hystrix-dashboard</artifactId>
     <packaging>war</packaging>
-    <name>Fabric8 :: Kubeflix :: Hystrix :: Dashboard</name>
+    <name>Kubeflix :: Hystrix :: Dashboard</name>
 
     <properties>
         <docker.from>docker.io/fabric8/jetty-9:1.0.0</docker.from>
