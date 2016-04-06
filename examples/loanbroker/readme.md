@@ -17,6 +17,15 @@ Taken from the [Enterprise Integration Pattern](http://www.enterpriseintegration
     he or she can then select the best offer, i.e. the lowest interest rate.
         
 This example demonstrates the use case above using Kubernetes, Spring Boot, Hystrix and Ribbon.
+
+### Quick Start
+
+The quickest way to get started is to deploy everything in a single step:
+
+    cd examples/loanbroker
+    mvn -Pf8-local-deploy
+
+Or you can build and deploy each part of the example individually.    
     
 ### The Credit Bureau
 

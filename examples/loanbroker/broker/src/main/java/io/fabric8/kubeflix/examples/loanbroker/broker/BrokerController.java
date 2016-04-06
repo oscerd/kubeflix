@@ -16,12 +16,15 @@
 
 package io.fabric8.kubeflix.examples.loanbroker.broker;
 
+import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -46,6 +49,9 @@ public class BrokerController {
         return "true";
     }
 
+    @Autowired
+    private RestTemplate template;
+
     @RequestMapping("/quote")
     public List<Quote> quote(@RequestParam("ssn") Long ssn, @RequestParam("amount") Double amount, @RequestParam("duration") Integer duration) throws InterruptedException, ExecutionException, TimeoutException {
         //Broadcast requests async
@@ -65,7 +71,15 @@ public class BrokerController {
 
     public CompletableFuture<Quote> requestQuoteAsync(Service service, final Long ssn, final Double amount, final Integer duration) {
         return CompletableFuture.supplyAsync(() -> {
-            return new RequestQuoteFromBankCommand(service, ssn, amount, duration).execute();
+            HystrixRequestContext context = null;
+            try {
+                context = HystrixRequestContext.initializeContext();
+                return new RequestQuoteFromBankCommand(template, service, ssn, amount, duration).execute();
+            } finally {
+                if (context != null) {
+                    context.shutdown();
+                }
+            }
         }, executorService);
     }
 }

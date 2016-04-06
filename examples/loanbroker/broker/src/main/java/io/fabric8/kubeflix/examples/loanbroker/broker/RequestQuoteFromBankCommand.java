@@ -21,28 +21,25 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.HystrixCommandProperties;
 import io.fabric8.kubernetes.api.model.Service;
-import io.fabric8.kubernetes.api.model.ServiceSpec;
 import io.fabric8.kubernetes.client.utils.URLUtils;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 public class RequestQuoteFromBankCommand extends HystrixCommand<Quote> {
-
-    private final ClientHttpRequestFactory httpRequestFactory = new SimpleClientHttpRequestFactory();
-    private final RestTemplate template = new RestTemplate(httpRequestFactory);
 
     private final Service service;
     private final Long ssn;
     private final Double amount;
     private final Integer duration;
 
-    protected RequestQuoteFromBankCommand(Service service, Long ssn, Double amount, Integer duration) {
+    private final RestTemplate template;
+
+    protected RequestQuoteFromBankCommand(RestTemplate template, Service service, Long ssn, Double amount, Integer duration) {
         super(Setter
                 .withGroupKey(HystrixCommandGroupKey.Factory.asKey(service.getMetadata().getName()))
                 .andCommandKey(HystrixCommandKey.Factory.asKey("RequestQuoteFromBank"))
                 .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
                         .withExecutionTimeoutInMilliseconds(10000)));
+        this.template = template;
         this.service = service;
         this.ssn = ssn;
         this.amount = amount;
@@ -51,24 +48,7 @@ public class RequestQuoteFromBankCommand extends HystrixCommand<Quote> {
 
     @Override
     protected Quote run() throws Exception {
-        String url = URLUtils.join(getServiceURL(service), "/quote?ssn=" + ssn + "&duration=" + duration+"&amount="+amount);
+        String url = URLUtils.join("http://" + service.getMetadata().getName(), "/quote?ssn=" + ssn + "&duration=" + duration + "&amount=" + amount);
         return template.getForEntity(url, Quote.class).getBody();
-    }
-
-    private static String getServiceURL(Service service) {
-        if (service != null) {
-            ServiceSpec spec = service.getSpec();
-            if (spec != null) {
-                String portalIP = spec.getClusterIP();
-                if (portalIP != null) {
-                    Integer port = spec.getPorts().iterator().next().getPort();
-                    if (port != null && port > 0) {
-                        portalIP += ":" + port;
-                    }
-                    return "http://" + portalIP;
-                }
-            }
-        }
-        return null;
     }
 }
