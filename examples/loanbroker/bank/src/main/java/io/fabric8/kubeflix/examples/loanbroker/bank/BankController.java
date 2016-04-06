@@ -30,10 +30,10 @@ public class BankController {
 
     private static final int FALLBACK_SCORE = 500;
 
-    @Value("${base.rate}")
+    @Value("${base.rate:10}")
     private float baseRate;
 
-    @Value("${bank.name}")
+    @Value("${bank.name:thebank}")
     private String bankName;
 
     @Autowired
