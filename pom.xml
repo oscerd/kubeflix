@@ -77,6 +77,7 @@
     <properties>
         <!-- Dependency Versions -->
         <archaius.version>0.6.6</archaius.version>
+        <guava.version>19.0</guava.version>
         <hystrix.version>1.4.9</hystrix.version>
         <jackson2.version>2.7.0</jackson2.version>
         <fabric8.version>2.2.100</fabric8.version>
@@ -111,11 +112,41 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- Internal -->
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>${servlet-api.version}</version>
+                <groupId>io.fabric8.kubeflix</groupId>
+                <artifactId>ribbon-discovery</artifactId>
+                <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.fabric8.kubeflix</groupId>
+                <artifactId>turbine-discovery</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Fabric8 Dependencies -->
+            <dependency>
+                <groupId>io.fabric8</groupId>
+                <artifactId>kubernetes-client</artifactId>
+                <version>${kubernetes-client.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.fabric8</groupId>
+                <artifactId>kubernetes-generator</artifactId>
+                <version>${fabric8.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.fabric8</groupId>
+                <artifactId>spring-cloud-starter-kubernetes</artifactId>
+                <version>${spring-cloud-kubernetes.version}</version>
+            </dependency>
+
+
+            <!-- Netflix Dependencies -->
             <dependency>
                 <groupId>com.netflix.archaius</groupId>
                 <artifactId>archaius-core</artifactId>
@@ -147,17 +178,6 @@
                 <version>${hystrix.version}</version>
                 <type>war</type>
             </dependency>
-            <dependency>
-                <groupId>io.reactivex</groupId>
-                <artifactId>rxjava</artifactId>
-                <version>${rxjava.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.reactivex</groupId>
-                <artifactId>rxnetty</artifactId>
-                <version>${rxnetty.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.netflix.ribbon</groupId>
@@ -184,21 +204,60 @@
             </dependency>
 
             <dependency>
-                <groupId>io.fabric8</groupId>
-                <artifactId>kubernetes-client</artifactId>
-                <version>${kubernetes-client.version}</version>
+                <groupId>com.netflix.turbine</groupId>
+                <artifactId>turbine-core</artifactId>
+                <version>${turbine.version}</version>
+            </dependency>
+
+            <!-- reactive-x -->
+            <dependency>
+                <groupId>io.reactivex</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>${rxjava.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.fabric8</groupId>
-                <artifactId>kubernetes-generator</artifactId>
-                <version>${fabric8.version}</version>
+                <groupId>io.reactivex</groupId>
+                <artifactId>rxnetty</artifactId>
+                <version>${rxnetty.version}</version>
+            </dependency>
+
+            <!-- Spring Dependencies -->
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.fabric8</groupId>
-                <artifactId>spring-cloud-starter-kubernetes</artifactId>
-                <version>${spring-cloud-kubernetes.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-ribbon</artifactId>
+                <version>${spring-cloud-netflix.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-zuul</artifactId>
+                <version>${spring-cloud-netflix.version}</version>
             </dependency>
 
             <!-- Jackson2 -->
@@ -219,6 +278,26 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson2.version}</version>
             </dependency>
+
+            <!-- Misc Dependencies -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-buffer</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
