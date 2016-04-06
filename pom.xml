@@ -203,12 +203,6 @@
                 <version>${ribbon.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.netflix.turbine</groupId>
-                <artifactId>turbine-core</artifactId>
-                <version>${turbine.version}</version>
-            </dependency>
-
             <!-- reactive-x -->
             <dependency>
                 <groupId>io.reactivex</groupId>
