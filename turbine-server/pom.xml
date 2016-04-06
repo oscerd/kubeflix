@@ -28,7 +28,7 @@
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>turbine-server</artifactId>
     <packaging>war</packaging>
-    <name>Fabric8 :: Kubeflix :: Turbine :: Server</name>
+    <name>Kubeflix :: Turbine :: Server</name>
 
     <properties>
         <docker.from>docker.io/fabric8/jetty-9:1.0.0</docker.from>
@@ -56,7 +56,6 @@
         <dependency>
             <groupId>io.fabric8.kubeflix</groupId>
             <artifactId>turbine-discovery</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
@@ -65,13 +64,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${maven-war-plugin.version}</version>
                 <extensions>true</extensions>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty-maven-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>io.fabric8</groupId>
@@ -96,7 +93,6 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>fabric8-maven-plugin</artifactId>
-                <version>${fabric8-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>json</id>
@@ -116,39 +112,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <!--
-    Default sample commands:
-    mvn -Pf8-build         ... build Docker images and create OpenShift deployment configs
-    mvn -Pf8-deploy        ... f8-build + push to Docker registry + applying deployment config to OpenShift
-    mvn -Pf8-local-deploy ... deployment for a single node setup without pushing to a registry
-    For individual goal usage please consult the fabric8 documentation
-    -->
-    <profiles>
-      <profile>
-        <id>f8-build</id>
-        <build>
-          <defaultGoal>clean install docker:build fabric8:json</defaultGoal>
-        </build>
-      </profile>
-      <profile>
-        <id>f8-deploy</id>
-        <properties>
-          <fabric8.imagePullPolicySnapshot>Always</fabric8.imagePullPolicySnapshot>
-          <fabric8.recreate>true</fabric8.recreate>
-        </properties>
-        <build>
-          <defaultGoal>clean install docker:build docker:push fabric8:json fabric8:apply</defaultGoal>
-        </build>
-      </profile>
-      <profile>
-        <id>f8-local-deploy</id>
-        <properties>
-          <fabric8.recreate>true</fabric8.recreate>
-        </properties>
-        <build>
-          <defaultGoal>clean package docker:build fabric8:json fabric8:apply</defaultGoal>
-        </build>
-      </profile>
-    </profiles>
 </project>

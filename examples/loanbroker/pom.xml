@@ -27,7 +27,7 @@
 
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>loanbroker-example</artifactId>
-    <name>Fabric8 :: Kubeflix :: Examples :: Loan Broker</name>
+    <name>Kubeflix :: Examples :: Loan Broker</name>
 
     <packaging>pom</packaging>
     <modules>

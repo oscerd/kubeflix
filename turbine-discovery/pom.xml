@@ -27,19 +27,17 @@
 
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>turbine-discovery</artifactId>
-    <name>Fabric8 :: Kubeflix :: Turbine :: Discovery</name>
+    <name>Kubeflix :: Turbine :: Discovery</name>
 
     <dependencies>
         <dependency>
             <groupId>com.netflix.turbine</groupId>
             <artifactId>turbine-core</artifactId>
-            <version>${turbine.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-client</artifactId>
-            <version>${kubernetes-client.version}</version>
         </dependency>
     </dependencies>
 

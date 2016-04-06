@@ -28,7 +28,7 @@
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>examples</artifactId>
     <packaging>pom</packaging>
-    <name>Fabric8 :: Kubeflix :: Examples</name>
+    <name>Kubeflix :: Examples</name>
 
     <modules>
         <module>hello-world</module>
