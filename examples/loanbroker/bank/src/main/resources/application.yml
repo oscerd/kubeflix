@@ -1,7 +1,4 @@
 spring:
-  application:
-    # This ends up as the service name in zipkin
-    name: loanbroker-bank
   sleuth:
     sampler:
       percentage: 1.0

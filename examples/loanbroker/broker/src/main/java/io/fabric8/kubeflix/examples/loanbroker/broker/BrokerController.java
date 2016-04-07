@@ -21,6 +21,7 @@ import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,21 +53,35 @@ public class BrokerController {
     @Autowired
     private RestTemplate template;
 
+    @Value("${loanbroker.async:false}")
+    private Boolean async;
+
     @RequestMapping("/quote")
     public List<Quote> quote(@RequestParam("ssn") Long ssn, @RequestParam("amount") Double amount, @RequestParam("duration") Integer duration) throws InterruptedException, ExecutionException, TimeoutException {
-        //Broadcast requests async
-        List<CompletableFuture<Quote>> futures =
-                client.services().withLabel(PROJECT_NAME, LOADBALANCER_BANK).list().getItems().stream()
-                        .map(s -> this.requestQuoteAsync(s, ssn, amount, duration))
-                        .collect(Collectors.toList());
+        HystrixRequestContext context = HystrixRequestContext.initializeContext();
+        try {
+            if (async) {
+                //Broadcast requests async
+                List<CompletableFuture<Quote>> futures =
+                        client.services().withLabel(PROJECT_NAME, LOADBALANCER_BANK).list().getItems().stream()
+                                .map(s -> this.requestQuoteAsync(s, ssn, amount, duration))
+                                .collect(Collectors.toList());
 
-        //Collect the results
-        CompletableFuture<List<Quote>> result = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]))
-                .thenApply(v -> futures.stream()
-                        .map(CompletableFuture::join)
-                        .collect(Collectors.toList()));
+                //Collect the results
+                CompletableFuture<List<Quote>> result = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]))
+                        .thenApply(v -> futures.stream()
+                                .map(CompletableFuture::join)
+                                .collect(Collectors.toList()));
 
-        return result.get(15, TimeUnit.SECONDS);
+                return result.get(15, TimeUnit.SECONDS);
+            }
+
+            return client.services().withLabel(PROJECT_NAME,LOADBALANCER_BANK).list().getItems().stream()
+                    .map(s -> this.requestQuote(s, ssn, amount, duration))
+                    .collect(Collectors.toList());
+        } finally {
+            context.shutdown();
+        }
     }
 
     public CompletableFuture<Quote> requestQuoteAsync(Service service, final Long ssn, final Double amount, final Integer duration) {
@@ -81,6 +96,14 @@ public class BrokerController {
                 }
             }
         }, executorService);
+    }
+
+    public Quote requestQuote(Service service, final Long ssn, final Double amount, final Integer duration) {
+        try {
+            return new RequestQuoteFromBankCommand(template, service, ssn, amount, duration).run();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

@@ -25,7 +25,6 @@ import io.fabric8.kubernetes.client.utils.URLUtils;
 import org.springframework.web.client.RestTemplate;
 
 public class RequestQuoteFromBankCommand extends HystrixCommand<Quote> {
-
     private final Service service;
     private final Long ssn;
     private final Double amount;

@@ -1,7 +1,11 @@
 spring:
   application:
     # This ends up as the service name in zipkin
-    name: loanbroker-broker
+    name: loanbroker
   sleuth:
     sampler:
       percentage: 1.0
+
+#Select sync or async execution.
+loanbroker:
+  async: false
