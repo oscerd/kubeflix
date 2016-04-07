@@ -30,6 +30,9 @@
     <name>Kubeflix :: Examples :: LoanBroker :: Bank</name>
 
     <properties>
+        <bank.id>bank1</bank.id>
+        <bank.name>Bank One</bank.name>
+        <bank.rate>10</bank.rate>
         <java.version>1.8</java.version>
         <docker.from>docker.io/java:8u40</docker.from>
         <fabric8.dockerUser>fabric8/</fabric8.dockerUser>
@@ -47,8 +50,9 @@
         <fabric8.label.hystrix.cluster>default</fabric8.label.hystrix.cluster>
         <fabric8.label.demo.name>loanbroker</fabric8.label.demo.name>
         <fabric8.iconUrl>https://raw.githubusercontent.com/fabric8io/kubeflix/master/examples/loanbroker/bank/src/main/fabric8/logo.png</fabric8.iconUrl>
-        <fabric8.env.BANK_NAME>KuBank</fabric8.env.BANK_NAME>
-        <fabric8.env.BASE_RATE>10</fabric8.env.BASE_RATE>
+        <fabric8.env.BANK_NAME>${bank.name}</fabric8.env.BANK_NAME>
+        <fabric8.env.BASE_RATE>${bank.rate}</fabric8.env.BASE_RATE>
+        <fabric8.env.SPRING_APPLICATION_NAME>${bank.id}</fabric8.env.SPRING_APPLICATION_NAME>
     </properties>
 
     <dependencies>
@@ -70,6 +74,11 @@
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>spring-cloud-starter-kubernetes-all</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>spring-cloud-kubernetes-compat</artifactId>
         </dependency>
 
         <dependency>
