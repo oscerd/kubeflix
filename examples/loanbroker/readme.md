@@ -16,7 +16,7 @@ Taken from the [Enterprise Integration Pattern](http://www.enterpriseintegration
     with an interest rate quote to the consumer (or declines thankfully). Once the customer has received quotes from all banks, 
     he or she can then select the best offer, i.e. the lowest interest rate.
         
-This example demonstrates the use case above using Kubernetes, Spring Boot, Hystrix and Ribbon.
+This example demonstrates the use case above using Kubernetes, Spring Boot, Hystrix, Ribbon and OpenZipkin.
 
 ### Quick Start
 
@@ -90,4 +90,12 @@ To build and create the generator:
 
 It's not a mandatory step but it does help a lot if you bring up the **Turbine Server** and **Hystrix Dashboard** and have a glimpse at the dashboard.
     
-![Hello World Dashboard](images/loanbroker-dashboard.png "Hello World Dashboard")    
+![Hello World Dashboard](images/loanbroker-dashboard.png "Loan Broker Dashboard")    
+
+### Integration with OpenZipkin
+
+The loanbroker example is using [Kubernetes integration with Spring Cloud](https://github.com/fabric8io/spring-cloud-kubernetes) which among others supports discovery and integration with [OpenZipkin](https://github.com/openzipkin/zipkin).
+
+This means that if zipkin is discovered, then all loan requests will be traced and the traces will be visilbe in the ZipKin console:
+
+![ZipKin Trace of Loan Request](images/loanbroker-zipkin.png "Loan Broker Trace")

@@ -24,6 +24,10 @@ import io.fabric8.kubernetes.generator.annotation.KubernetesModelProcessor;
 @KubernetesModelProcessor
 public class BankResourceCustomizer {
 
+    private static final String DEFAULT_BANK_ID = "bank1";
+    private static final String DEFAULT_BANK_NAME = "Bank One";
+    private static final String DEFAULT_BANK_RATE = "18";
+
     private static final String BANK_ID = "bank.id";
     private static final String BANK_NAME = "bank.name";
     private static final String BANK_RATE = "bank.rate";
@@ -32,7 +36,7 @@ public class BankResourceCustomizer {
     private static final String BANK_RATE_ENV = "BASE_RATE";
 
     public void on(ReplicationControllerBuilder builder) {
-        String bankId = System.getProperty(BANK_ID);
+        String bankId = System.getProperty(BANK_ID, DEFAULT_BANK_ID);
         if (bankId != null && !bankId.isEmpty()) {
             builder.editMetadata().withName(bankId).endMetadata();
             builder.editSpec()
@@ -47,7 +51,7 @@ public class BankResourceCustomizer {
     }
 
     public void on(ServiceBuilder builder) {
-        String bankId = System.getProperty(BANK_ID);
+        String bankId = System.getProperty(BANK_ID, DEFAULT_BANK_ID);
         if (bankId != null && !bankId.isEmpty()) {
             builder.editMetadata().withName(bankId).endMetadata();
             builder.editSpec()
@@ -57,8 +61,8 @@ public class BankResourceCustomizer {
     }
 
     public void on(ContainerBuilder containerBuilder) {
-        String bankName = System.getProperty(BANK_NAME);
-        String bankRate = System.getProperty(BANK_RATE);
+        String bankName = System.getProperty(BANK_NAME, DEFAULT_BANK_NAME);
+        String bankRate = System.getProperty(BANK_RATE, DEFAULT_BANK_RATE);
 
         if (bankName != null && !bankName.isEmpty()) {
             containerBuilder.addNewEnv().withName(BANK_NAME_ENV).withValue(bankName).endEnv();
