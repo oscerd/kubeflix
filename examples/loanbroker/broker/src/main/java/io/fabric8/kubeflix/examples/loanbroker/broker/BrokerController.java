@@ -76,7 +76,7 @@ public class BrokerController {
                 return result.get(15, TimeUnit.SECONDS);
             }
 
-            return client.services().withLabel(PROJECT_NAME,LOADBALANCER_BANK).list().getItems().stream()
+            return client.services().withLabel(PROJECT_NAME, LOADBALANCER_BANK).list().getItems().stream()
                     .map(s -> this.requestQuote(s, ssn, amount, duration))
                     .collect(Collectors.toList());
         } finally {

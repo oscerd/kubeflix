@@ -33,7 +33,7 @@ public class Main extends FatJarRouter {
 
     @Override
     public void configure() throws Exception {
-        from("timer://foo?period=5000")
+        from("timer://foo?delay=0&period=100")
             .setHeader("ssn", method(SsnGenerator.class, "generate"))
             .setHeader("duration", method(DurationGenerator.class, "generate"))
             .setHeader("amount", method(AmountGenerator.class, "generate"))
