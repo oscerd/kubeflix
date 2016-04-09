@@ -99,3 +99,7 @@ The loanbroker example is using [Kubernetes integration with Spring Cloud](https
 This means that if zipkin is discovered, then all loan requests will be traced and the traces will be visilbe in the ZipKin console:
 
 ![ZipKin Trace of Loan Request](images/loanbroker-zipkin.png "Loan Broker Trace")
+
+And here is the dependency view taken from the Zipkin Condole
+
+![ZipKin Loan Request Dependencies](images/loanbroker-dependencies.png "Loan Broker Dependencies")
