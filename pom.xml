@@ -31,6 +31,7 @@
     <version>1.0.12-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kubeflix :: Project</name>
+    <description>Kubernetes integration of Netflix OSS components</description>
 
     <url>http://fabric8.io/</url>
     <inceptionYear>2015</inceptionYear>

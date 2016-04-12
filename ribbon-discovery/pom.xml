@@ -28,7 +28,7 @@
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>ribbon-discovery</artifactId>
     <name>Kubeflix :: Ribbon :: Discovery</name>
-
+    <description>Discovery module to detect Kubernetes endpoints for loadbalancing with the Ribbon IPC framework</description>
     <dependencies>
         <dependency>
             <groupId>com.netflix.ribbon</groupId>
