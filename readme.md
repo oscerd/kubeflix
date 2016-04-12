@@ -50,7 +50,7 @@ The **Turbine Server** can be accessed at: http://turbine-server.vagrant.f8/turb
 ### Ribbon Discovery
 
 Ribbon is an IPC framework that among other provides load balancing features over multiple protocols.
-This project provides a ribbon discovery module that can be used with ribbon in order to discover and loabalance over Kubernetes endpoints.
+This project provides a ribbon discovery module that can be used with ribbon in order to discover and loadbalance over Kubernetes endpoints.
 
 #### How does Ribbon work inside Kubernetes?
 -----------------------------------

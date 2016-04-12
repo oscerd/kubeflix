@@ -28,6 +28,7 @@
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>turbine-discovery</artifactId>
     <name>Kubeflix :: Turbine :: Discovery</name>
+    <description>Discovery module for Hystrix metrics streams</description>
 
     <dependencies>
         <dependency>

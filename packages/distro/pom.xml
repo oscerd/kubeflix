@@ -29,6 +29,7 @@
   <packaging>pom</packaging>
 
   <name>Kubeflix :: Packages :: Distro</name>
+  <description>Kubeflix applications (Turbine &amp; Histrix dashboard)</description>
 
   <dependencies>
     <dependency>

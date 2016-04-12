@@ -29,6 +29,7 @@
     <artifactId>turbine-server</artifactId>
     <packaging>war</packaging>
     <name>Kubeflix :: Turbine :: Server</name>
+    <description>Turbine server with the Kubernetes discovery module pre-installed and pre-configured</description>
 
     <properties>
         <docker.from>docker.io/fabric8/jetty-9:1.0.0</docker.from>
