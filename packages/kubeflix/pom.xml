@@ -28,6 +28,7 @@
   <packaging>pom</packaging>
 
   <name>Kubeflix :: Packages :: Kubeflix</name>
+  <description>Turbine Server and Hystrix Dashboard</description>
 
   <properties>
     <fabric8.combineDependencies>true</fabric8.combineDependencies>
