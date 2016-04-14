@@ -20,7 +20,7 @@
   <parent>
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>kubeflix-project</artifactId>
-    <version>1.0.12-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
