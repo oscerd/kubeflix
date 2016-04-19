@@ -35,7 +35,7 @@ This discovery module is looking for Kubernetes Pods that contain the following 
 - hystrix.enabled:   Flag to indicate that the pod is exposing a hystrix stream
 - hystrix.cluster:   Optional label to define the name of the Hystrix cluster
 
-You can override the Hystrix stream URL that Turbine will look for to match whatever is exposed by your pods by setting the ``turbineInstanceUrlSuffix`` environment variable in the Turbine container.
+You can override the Hystrix stream URL that Turbine will look for to match whatever is exposed by your pods by setting the ``TURBINE_INSTANCE_URL_SUFFIX`` environment variable in the Turbine container.
 
 ## Turbine Server
 

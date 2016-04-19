@@ -42,13 +42,13 @@ public class StartTurbineServer implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         logger.info("Initing Turbine server");
-		EnvironmentConfiguration configFromSystemProperties = new EnvironmentConfiguration();
+		EnvironmentConfiguration environmentConfig = new EnvironmentConfiguration();
 		MapConfiguration mapConfig=new MapConfiguration(new HashMap<String, Object>());
 		// hack to workaround kubernetes yaml file limitation on property name (Must be a C identifier)
-		mapConfig.addProperty("turbine.instanceUrlSuffix", configFromSystemProperties.getProperty("turbineInstanceUrlSuffix"));
+		mapConfig.addProperty("turbine.instanceUrlSuffix", environmentConfig.getProperty("TURBINE_INSTANCE_URL_SUFFIX"));
 		ConcurrentCompositeConfiguration finalConfig = new ConcurrentCompositeConfiguration();
 		finalConfig.addConfiguration(mapConfig, "mapConfig");
-		finalConfig.addConfiguration(configFromSystemProperties, "systemConfig");
+		finalConfig.addConfiguration(environmentConfig, "systemConfig");
 		ConfigurationManager.install(finalConfig);
 		DynamicStringProperty prop = DynamicPropertyFactory.getInstance().getStringProperty("turbine.instanceUrlSuffix",null);
 		logger.debug("using turbine.instanceUrlSuffix:" + prop.getValue());         
