@@ -34,11 +34,13 @@
         <dependency>
             <groupId>com.netflix.turbine</groupId>
             <artifactId>turbine-core</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-client</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

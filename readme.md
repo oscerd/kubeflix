@@ -30,16 +30,19 @@ For use inside Kubernetes the project provides a special discovery module called
         <version>x.y.z</version>
     </dependency>    
 
-This discovery module is looking for Kubernetes Pods that contain the following labels:
+This discovery module is looking for Kubernetes endpoints that contain the following labels:
 
-- hystrix.enabled:   Flag to indicate that the pod is exposing a hystrix stream
-- hystrix.cluster:   Optional label to define the name of the Hystrix cluster
+- hystrix.enabled:   Flag to indicate that the pod *(that provides the endpoint)* is exposing a hystrix stream
+- hystrix.cluster:   Optional label to define the name of the Hystrix cluster.
 
-You can override the Hystrix stream URL that Turbine will look for to match whatever is exposed by your pods by setting the ``TURBINE_INSTANCE_URL_SUFFIX`` environment variable in the Turbine container.
+From the endpoint Turbine obtains the ip and from configuration obtains information like port and path. This way it creates a URL to each individual hystrix.stream.
 
 ## Turbine Server
 
 This project also provides a server that runs turbine with the Kubernetes discovery module preinstalled/preconfigured.
+
+The server is configured out of the box to aggregate all the hystrix streams located in the current namespace.
+If wider or narrower scope is required it can be done via configuration *(see below)*.
 
 To build the server docker image and apply it to your kubernetes cluster:
 
@@ -48,13 +51,48 @@ To build the server docker image and apply it to your kubernetes cluster:
 
 The **Turbine Server** can be accessed at: http://turbine-server.vagrant.f8/turbine.stream (or wherever the turbine-server service is bound).
 
+### Configuring the Turbine Server
 
-### Ribbon Discovery
+The turbine server can be configured with two ways:
+
+- using env variables
+- using Kubernetes ConfigMap
+
+#### Using env variables
+
+You can specify any turbine configuration property as an environment variable by converting the property to upper case and replacing dots with underscores.
+
+Example:
+
+For creating the url to each individual hystrix stream, turbine is using the instance ip and appends a suffix specified by the ``turbine.instanceUrlSuffix``.
+To configure this property via env variable you just need to set an environment variable with name ``TURBINE_INSTANCE_URL_SUFFIX``.
+
+#### Using ConfigMap
+
+The turbine server is powered by [Spring Cloud Kubernetes](https://github.com/fabric8io/spring-cloud-kubernetes) which among other allows you to externalize your ``application.yml`` in a [ConfigMap](http://kubernetes.io/docs/user-guide/configmap/).
+This means that you can just create a ConfigMap named ``turbine-server`` and add the application.yml inside it:
+
+        kind: ConfigMap
+        apiVersion: v1
+        metadata:
+          name: turbine-server
+        data:¬
+         application.yml: | 
+           turbine.instanceUrlSuffix: 8080/hystrix.stream
+
+### Turbine Discovery scopes
+
+Out of the box the turbine server will discover all endpoints in the current namespace with the required labels *(hystrix.enabled)*.
+
+If you need to use cross namespace aggregation, you can set the turbine porperty `turbine.aggregator.namespaceConfig` and set a comma separated list of namespaces.
+If you need more fine grained selection of endpoints in the current namespace you can set the turbine property `turbine.aggregator.clusterConfig`.
+
+## Ribbon Discovery
 
 Ribbon is an IPC framework that among other provides load balancing features over multiple protocols.
 This project provides a ribbon discovery module that can be used with ribbon in order to discover and loadbalance over Kubernetes endpoints.
 
-#### How does Ribbon work inside Kubernetes?
+### How does Ribbon work inside Kubernetes?
 -----------------------------------
 
 For use inside Kubernetes the project provides a special discovery module called ribbon-discovery:

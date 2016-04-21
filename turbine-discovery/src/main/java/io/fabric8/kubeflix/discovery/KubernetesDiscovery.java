@@ -18,80 +18,68 @@ package io.fabric8.kubeflix.discovery;
 
 import com.netflix.turbine.discovery.Instance;
 import com.netflix.turbine.discovery.InstanceDiscovery;
-import io.fabric8.kubernetes.api.model.EndpointAddress;
-import io.fabric8.kubernetes.api.model.EndpointSubset;
 import io.fabric8.kubernetes.api.model.Endpoints;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class KubernetesDiscovery implements InstanceDiscovery {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KubernetesDiscovery.class);
-
     private static final String HYSTRIX_ENABLED = "hystrix.enabled";
     private static final String HYSTRIX_CLUSTER = "hystrix.cluster";
-
-    private static final int DEFAULT_PORT = 8080;
-    private static final String DEFAULT = "default";
-    private static final Map<String, String> DEFAULT_LABELS = new HashMap<String, String>();
-
-    static {
-        DEFAULT_LABELS.put(HYSTRIX_ENABLED, "true");
-    }
-
+    private static final String TRUE = "true";
 
     private final KubernetesClient client;
-    private final Map<String, String> labels;
+    private final Collection<String> namespaces;
+    private final Collection<String> clusters;
 
-    public KubernetesDiscovery() {
-        this(new DefaultKubernetesClient(), DEFAULT_LABELS);
-    }
 
-    public KubernetesDiscovery(KubernetesClient client, Map<String, String> labels) {
+    private final Function<String, List<Endpoints>> ENDPOINTS_OF_NAMESPACE = new Function<String, List<Endpoints>>() {
+        @Override
+        public List<Endpoints> apply(String s) {
+            if (!clusters.isEmpty()) {
+                return client.endpoints().inNamespace(s)
+                        .withLabel(HYSTRIX_ENABLED, TRUE)
+                        .withLabelIn(HYSTRIX_CLUSTER, clusters.toArray(new String[clusters.size()]))
+                        .list().getItems().stream()
+                        .collect(Collectors.toList());
+            } else {
+                return client.endpoints().inNamespace(s)
+                        .withLabel(HYSTRIX_ENABLED, TRUE)
+                        .list().getItems().stream()
+                        .collect(Collectors.toList());
+            }
+        }
+    };
+
+    private final Function<Endpoints, List<Instance>> ENDPOINTS_TO_INSTANCES = new Function<Endpoints, List<Instance>>() {
+        @Override
+        public List<Instance> apply(Endpoints endpoints) {
+            String clusterName = endpoints.getMetadata().getLabels().containsKey(HYSTRIX_CLUSTER) ?
+                    endpoints.getMetadata().getLabels().get(HYSTRIX_CLUSTER) :
+                    endpoints.getMetadata().getNamespace();
+
+            return endpoints.getSubsets().stream()
+                    .flatMap(e -> e.getAddresses().stream())
+                    .map(a -> new Instance(a.getIp(), clusterName, true))
+                    .collect(Collectors.toList());
+        }
+    };
+
+
+    public KubernetesDiscovery(KubernetesClient client, Collection<String> namespaces, Collection<String> clusters) {
         this.client = client;
-        this.labels = labels;
+        this.namespaces = namespaces;
+        this.clusters = clusters;
     }
 
-    public Collection<Instance>  getInstanceList() throws Exception {
-        List<Instance> result = new ArrayList<Instance>();
-        for (Endpoints endpoint : client.endpoints().withLabels(labels).list().getItems()) {
-            try {
-                result.addAll(toInstances(endpoint));
-            } catch (Throwable t) {
-                LOGGER.error("Error processing endpoint", t);
-            }
-        }
-        return result;
-    }
-
-
-    private static List<EndpointAddress> addresses(Endpoints e) {
-        List<EndpointAddress> result = new ArrayList<EndpointAddress>();
-        for (EndpointSubset endpointSubset : e.getSubsets()) {
-            result.addAll(endpointSubset.getAddresses());
-        }
-        return result;
-    }
-
-
-    private static List<Instance> toInstances(Endpoints e) {
-        List<Instance> result = new ArrayList<Instance>();
-        for (EndpointSubset subset : e.getSubsets()) {
-            String clusterName = e.getMetadata().getLabels().containsKey(HYSTRIX_CLUSTER) ?
-                    e.getMetadata().getLabels().get(HYSTRIX_CLUSTER) :
-                    DEFAULT;
-            for (EndpointAddress address : subset.getAddresses()) {
-                result.add(new Instance(address.getIp(), clusterName, true));
-            }
-        }
-        return result;
+    public Collection<Instance> getInstanceList() throws Exception {
+        return namespaces.stream()
+                .flatMap(ENDPOINTS_OF_NAMESPACE.andThen(e -> e.stream()))
+                .flatMap(ENDPOINTS_TO_INSTANCES.andThen(i -> i.stream()))
+                .collect(Collectors.toList());
     }
 }
