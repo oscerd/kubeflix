@@ -27,7 +27,6 @@
 
     <groupId>io.fabric8.kubeflix</groupId>
     <artifactId>turbine-server</artifactId>
-    <packaging>war</packaging>
     <name>Kubeflix :: Turbine :: Server</name>
     <description>Turbine server with the Kubernetes discovery module pre-installed and pre-configured</description>
 
@@ -45,36 +44,110 @@
         <fabric8.service.type>LoadBalancer</fabric8.service.type>
         <fabric8.serviceAccount>turbine</fabric8.serviceAccount>
         <fabric8.serviceAccountCreate>true</fabric8.serviceAccountCreate>
-        <fabric8.iconUrl>https://raw.githubusercontent.com/fabric8io/kubeflix/master/turbine-server/src/main/fabric8/logo.png</fabric8.iconUrl>
+        <fabric8.iconUrl>
+            https://raw.githubusercontent.com/fabric8io/kubeflix/master/turbine-server/src/main/fabric8/logo.png
+        </fabric8.iconUrl>
         <fabric8.annotations.service.servicepath>/turbine.stream</fabric8.annotations.service.servicepath>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
         </dependency>
+
         <dependency>
             <groupId>io.fabric8.kubeflix</groupId>
             <artifactId>turbine-discovery</artifactId>
         </dependency>
+
         <dependency>
-	        <groupId>commons-configuration</groupId>
-	        <artifactId>commons-configuration</artifactId>
-	        <version>1.10</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-ribbon</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-turbine</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-commons</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>spring-cloud-starter-kubernetes-all</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>spring-cloud-kubernetes-compat</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxjava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxnetty</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-buffer</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
     </dependencies>
+
+
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <extensions>true</extensions>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
             <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>io.fabric8</groupId>
@@ -86,11 +159,19 @@
                             <build>
                                 <from>${docker.from}</from>
                                 <assembly>
-                                    <descriptorRef>${docker.assemblyDescriptorRef}</descriptorRef>
+                                    <basedir>/app</basedir>
+                                    <descriptorRef>artifact</descriptorRef>
                                 </assembly>
-                                <env>
-                                    <CATALINA_OPTS>-javaagent:/opt/tomcat/jolokia-agent.jar=host=0.0.0.0,port=8778</CATALINA_OPTS>
-                                </env>
+                                <ports>
+                                    <port>${fabric8.service.containerPort}</port>
+                                </ports>
+                                <entryPoint>
+                                    <exec>
+                                        <arg>java</arg>
+                                        <arg>-jar</arg>
+                                        <arg>/app/${project.build.finalName}.jar</arg>
+                                    </exec>
+                                </entryPoint>
                             </build>
                         </image>
                     </images>

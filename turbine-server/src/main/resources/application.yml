@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: turbine-server
+turbine:
+  instanceUrlSuffix: 8080/hystrix.stream
+  aggregator:
+    clusterConfig:
+    namespaceConfig:
+InstanceDiscovery:
+  impl: io.fabric8.kubeflix.discovery.KubernetesDiscovery

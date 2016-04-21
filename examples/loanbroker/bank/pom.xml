@@ -47,7 +47,6 @@
         <fabric8.readinessProbe.initialDelaySeconds>5</fabric8.readinessProbe.initialDelaySeconds>
         <fabric8.serviceAccount>fabric8</fabric8.serviceAccount>
         <fabric8.label.hystrix.enabled>true</fabric8.label.hystrix.enabled>
-        <fabric8.label.hystrix.cluster>default</fabric8.label.hystrix.cluster>
         <fabric8.label.demo.name>loanbroker</fabric8.label.demo.name>
         <fabric8.iconUrl>https://raw.githubusercontent.com/fabric8io/kubeflix/master/examples/loanbroker/bank/src/main/fabric8/logo.png</fabric8.iconUrl>
         <fabric8.env.BANK_NAME>${bank.name}</fabric8.env.BANK_NAME>

@@ -16,8 +16,9 @@
 
 package io.fabric8.kubeflix;
 
+import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.turbine.discovery.Instance;
-import io.fabric8.kubeflix.discovery.KubernetesDiscovery;
+import com.netflix.turbine.discovery.InstanceDiscovery;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,20 +29,25 @@ import java.io.PrintWriter;
 
 public class DiscoveryFeedbackServlet extends HttpServlet {
 
-    private static final KubernetesDiscovery DISCOVERY = new KubernetesDiscovery();
+    private final InstanceDiscovery instanceDiscovery;
+
+    public DiscoveryFeedbackServlet(InstanceDiscovery instanceDiscovery) {
+        this.instanceDiscovery = instanceDiscovery;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Set response content type
         resp.setContentType("text/html");
 
+        String suffix = DynamicPropertyFactory.getInstance().getStringProperty("turbine.instanceUrlSuffix", "").getValue();
 
         // Actual logic goes here.
         PrintWriter out = resp.getWriter();
         out.println("<h1>Hystrix Endpoints:</h1>");
         try {
-            for (Instance instance : DISCOVERY.getInstanceList()) {
-                out.println("<h3>" + instance.getHostname() + ":" + instance.getCluster() + ":" + instance.isUp() + "</h3>");
+            for (Instance instance : instanceDiscovery.getInstanceList()) {
+                out.println("<h3>" + instance.getHostname() + suffix + " " + instance.getCluster() + ":" + instance.isUp() + "</h3>");
             }
         } catch (Throwable t) {
             t.printStackTrace(out);
