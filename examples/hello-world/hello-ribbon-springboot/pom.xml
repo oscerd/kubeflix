@@ -46,7 +46,6 @@
         <fabric8.serviceAccount>ribbon</fabric8.serviceAccount>
         <fabric8.serviceAccountCreate>true</fabric8.serviceAccountCreate>
         <fabric8.label.hystrix.enabled>true</fabric8.label.hystrix.enabled>
-        <fabric8.label.hystrix.cluster>default</fabric8.label.hystrix.cluster>
 
         <fabric8.annotations.service.servicepath>/hello</fabric8.annotations.service.servicepath>
     </properties>

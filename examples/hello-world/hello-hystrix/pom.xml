@@ -46,7 +46,6 @@
         <fabric8.readinessProbe.httpGet.port>8080</fabric8.readinessProbe.httpGet.port>
         <fabric8.readinessProbe.initialDelaySeconds>5</fabric8.readinessProbe.initialDelaySeconds>
         <fabric8.label.hystrix.enabled>true</fabric8.label.hystrix.enabled>
-        <fabric8.label.hystrix.cluster>default</fabric8.label.hystrix.cluster>
     </properties>
 
 
