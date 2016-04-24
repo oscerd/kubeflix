@@ -2,7 +2,7 @@ spring:
   application:
     name: turbine-server
 turbine:
-  instanceUrlSuffix: 8080/hystrix.stream
+  instanceUrlSuffix: :8080/hystrix.stream
   aggregator:
     clusterConfig:
     namespaceConfig:

@@ -19,6 +19,7 @@ package io.fabric8.kubeflix.discovery;
 import com.netflix.turbine.discovery.Instance;
 import com.netflix.turbine.discovery.InstanceDiscovery;
 import io.fabric8.kubernetes.api.model.Endpoints;
+import io.fabric8.kubernetes.api.model.KubernetesListBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 
 import java.util.Collection;
