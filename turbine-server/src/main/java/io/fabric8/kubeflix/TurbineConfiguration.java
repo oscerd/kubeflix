@@ -38,6 +38,8 @@ import java.util.Set;
 public class TurbineConfiguration {
 
     private static final String TURBINE_AGGREGATOR_CLUSTER_CONFIG_PROPERTY_NAME = "turbine.aggregator.clusterConfig";
+    private static final String DEFAULT_TURBINE_URL_MAPPING = "/turbine.stream";
+    private static final String DEFAULT_DISCOVERY_URL_MAPPING = "/discovery";
     private static final Set<String> BLANK = new HashSet<>(Arrays.asList(""));
 
     @Value("${turbine.aggregator.clusterConfig}")
@@ -68,14 +70,14 @@ public class TurbineConfiguration {
     @Bean
     public ServletRegistrationBean turbineServletRegistration() {
         ServletRegistrationBean registration = new ServletRegistrationBean(turbineStreamServlet());
-        registration.setUrlMappings(Arrays.asList("/turbine.stream"));
+        registration.setUrlMappings(Arrays.asList(DEFAULT_TURBINE_URL_MAPPING));
         return registration;
     }
 
     @Bean
     public ServletRegistrationBean discoveryServletRegistration(InstanceDiscovery instanceDiscovery) {
         ServletRegistrationBean registration = new ServletRegistrationBean(discoveryFeedbackServlet(instanceDiscovery));
-        registration.setUrlMappings(Arrays.asList("/discovery"));
+        registration.setUrlMappings(Arrays.asList(DEFAULT_DISCOVERY_URL_MAPPING));
         return registration;
     }
 
