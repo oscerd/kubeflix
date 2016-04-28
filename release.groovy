@@ -4,7 +4,7 @@ def updateDependencies(source){
   def properties = []
   properties << ['<fabric8.version>','io/fabric8/kubernetes-generator']
   properties << ['<kubernetes-client.version>','io/fabric8/kubernetes-client']
-  properties << ['<spring-cloud-kubernetes.version>','io/fabric8/spring-cloud-kubernetes']
+  properties << ['<spring-cloud-kubernetes.version>','io/fabric8/spring-cloud-kubernetes-core']
   properties << ['<docker.maven.plugin.version>','io/fabric8/docker-maven-plugin']
   properties << ['<fabric8-maven-plugin.version>','io/fabric8/fabric8-maven-plugin']
 
