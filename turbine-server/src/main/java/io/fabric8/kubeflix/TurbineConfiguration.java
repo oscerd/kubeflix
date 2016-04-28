@@ -19,7 +19,7 @@ package io.fabric8.kubeflix;
 
 import com.netflix.turbine.discovery.InstanceDiscovery;
 import com.netflix.turbine.streaming.servlet.TurbineStreamServlet;
-import io.fabric8.kubeflix.discovery.KubernetesDiscovery;
+import io.fabric8.kubeflix.turbine.TurbineDiscovery;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import org.apache.commons.configuration.MapConfiguration;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,7 +57,7 @@ public class TurbineConfiguration {
 
     @Bean
     InstanceDiscovery instanceDiscovery(KubernetesClient client) {
-        return new KubernetesDiscovery(client,
+        return new TurbineDiscovery(client,
                 !namespaces.isEmpty() && !BLANK.equals(namespaces) ? namespaces : Arrays.asList(client.getNamespace()),
                 !BLANK.equals(clusters) ? clusters : Collections.emptySet());
     }
