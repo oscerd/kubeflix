@@ -19,7 +19,7 @@ package io.fabric8.kubeflix.discovery;
 import com.netflix.turbine.discovery.Instance;
 import com.netflix.turbine.discovery.InstanceDiscovery;
 import io.fabric8.kubernetes.api.model.Endpoints;
-import io.fabric8.kubernetes.api.model.KubernetesListBuilder;
+import io.fabric8.kubernetes.api.model.EndpointsBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 
 import java.util.Collection;
@@ -42,15 +42,14 @@ public class KubernetesDiscovery implements InstanceDiscovery {
         @Override
         public List<Endpoints> apply(String s) {
             if (!clusters.isEmpty()) {
-                return client.endpoints().inNamespace(s)
-                        .withLabel(HYSTRIX_ENABLED, TRUE)
-                        .withLabelIn(HYSTRIX_CLUSTER, clusters.toArray(new String[clusters.size()]))
-                        .list().getItems().stream()
+                return clusters.stream()
+                        .map(c -> client.endpoints().inNamespace(s).withName(c).get())
+                        .filter(n -> n != null)
+                        .map(e -> new EndpointsBuilder(e).editMetadata().addToLabels(HYSTRIX_CLUSTER, e.getMetadata().getName()).and().build())
                         .collect(Collectors.toList());
             } else {
-                return client.endpoints().inNamespace(s)
-                        .withLabel(HYSTRIX_ENABLED, TRUE)
-                        .list().getItems().stream()
+                return client.endpoints().inNamespace(s).withLabel(HYSTRIX_ENABLED, TRUE).list().getItems().stream()
+                        .map(e -> new EndpointsBuilder(e).editMetadata().addToLabels(HYSTRIX_CLUSTER, e.getMetadata().getNamespace()).and().build())
                         .collect(Collectors.toList());
             }
         }
