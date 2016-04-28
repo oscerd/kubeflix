@@ -73,7 +73,7 @@ class RibbonDiscoveryTest extends Specification {
             config.setClientName("service1")
             config.setProperty(KubernetesConfigKey.Namespace, "current")
             config.setProperty(KubernetesConfigKey.PortName, "port-8080")
-            KubernetesServerList serverList = new KubernetesServerList(mockServer.createClient(), config)
+            KubernetesServerList serverList = new KubernetesServerList(config, mockServer.createClient())
             List<Server> servers  = serverList.getUpdatedListOfServers()
         then:
             servers != null
@@ -95,7 +95,7 @@ class RibbonDiscoveryTest extends Specification {
             config.setClientName("service1")
             config.setProperty(KubernetesConfigKey.Namespace, "current")
             config.setProperty(KubernetesConfigKey.PortName, "port-8080")
-            KubernetesServerList serverList = new KubernetesServerList(mockServer.createClient(), config)
+            KubernetesServerList serverList = new KubernetesServerList(config, mockServer.createClient())
             List<Server> servers  = serverList.getUpdatedListOfServers()
         then:
             servers != null
