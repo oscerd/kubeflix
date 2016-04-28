@@ -21,9 +21,13 @@ import com.netflix.turbine.discovery.InstanceDiscovery;
 import com.netflix.turbine.streaming.servlet.TurbineStreamServlet;
 import io.fabric8.kubeflix.turbine.TurbineDiscovery;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.utils.Utils;
 import org.apache.commons.configuration.MapConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,10 +35,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Configuration
+@EnableConfigurationProperties(AggregatorProperties.class)
 public class TurbineConfiguration {
 
     private static final String TURBINE_AGGREGATOR_CLUSTER_CONFIG_PROPERTY_NAME = "turbine.aggregator.clusterConfig";
@@ -42,11 +48,8 @@ public class TurbineConfiguration {
     private static final String DEFAULT_DISCOVERY_URL_MAPPING = "/discovery";
     private static final Set<String> BLANK = new HashSet<>(Arrays.asList(""));
 
-    @Value("${turbine.aggregator.clusterConfig}")
-    private Set<String> clusters;
-
-    @Value("${turbine.aggregator.namespaceConfig}")
-    private Set<String> namespaces;
+    @Autowired
+    AggregatorProperties aggregatorProperties;
 
     @Bean
     MapConfiguration turbineClusterConfig(KubernetesClient client) {
@@ -57,8 +60,11 @@ public class TurbineConfiguration {
 
     @Bean
     InstanceDiscovery instanceDiscovery(KubernetesClient client) {
+        List<String> namespaces = aggregatorProperties.getNamespaceConfig();
+        List<String> clusters = aggregatorProperties.getClusterConfig();
+
         return new TurbineDiscovery(client,
-                !namespaces.isEmpty() && !BLANK.equals(namespaces) ? namespaces : Arrays.asList(client.getNamespace()),
+                !aggregatorProperties.getNamespaceConfig().isEmpty() && !BLANK.equals(namespaces) ? namespaces : Arrays.asList(client.getNamespace()),
                 !BLANK.equals(clusters) ? clusters : Collections.emptySet());
     }
 

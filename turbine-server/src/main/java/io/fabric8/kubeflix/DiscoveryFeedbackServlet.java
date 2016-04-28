@@ -47,7 +47,7 @@ public class DiscoveryFeedbackServlet extends HttpServlet {
         out.println("<h1>Hystrix Endpoints:</h1>");
         try {
             for (Instance instance : instanceDiscovery.getInstanceList()) {
-                out.println("<h3>" + instance.getHostname() + suffix + " " + instance.getCluster() + ":" + instance.isUp() + "</h3>");
+                out.println("<h3>http://" + instance.getHostname() + suffix + " " + instance.getCluster() + ":" + instance.isUp() + "</h3>");
             }
         } catch (Throwable t) {
             t.printStackTrace(out);
