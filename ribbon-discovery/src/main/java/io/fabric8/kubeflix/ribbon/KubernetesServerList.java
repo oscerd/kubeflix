@@ -98,20 +98,4 @@ public class KubernetesServerList extends AbstractServerList<Server> implements 
         }
         return result;
     }
-
-    public String toFixedList() {
-        StringBuilder sb = new StringBuilder();
-        boolean first = true;
-
-        for (Server server : getUpdatedListOfServers()) {
-            if (first) {
-                first = false;
-            } else {
-                sb.append(",");
-            }
-            sb.append(server.getHost()).append(":").append(server.getHostPort());
-        }
-        return sb.toString();
-    }
-
 }
