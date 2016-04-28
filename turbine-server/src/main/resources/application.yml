@@ -7,4 +7,4 @@ turbine:
     clusterConfig:
     namespaceConfig:
 InstanceDiscovery:
-  impl: io.fabric8.kubeflix.discovery.KubernetesDiscovery
+  impl: io.fabric8.kubeflix.turbine.TurbineDiscovery

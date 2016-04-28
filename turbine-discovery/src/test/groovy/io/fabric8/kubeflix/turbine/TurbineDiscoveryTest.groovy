@@ -15,10 +15,9 @@
  *
  */
 
-package io.fabric8.kubeflix.discovery
+package io.fabric8.kubeflix.turbine
 
 import com.netflix.turbine.discovery.Instance
-import io.fabric8.kubernetes.api.model.ConfigMapBuilder
 import io.fabric8.kubernetes.api.model.EndpointsBuilder
 import io.fabric8.kubernetes.api.model.EndpointsListBuilder
 import io.fabric8.kubernetes.client.Config
@@ -27,25 +26,16 @@ import io.fabric8.kubernetes.server.mock.KubernetesMockServer
 import spock.lang.Specification
 
 
-class KubernetesDiscoveryTest extends Specification {
+class TurbineDiscoveryTest extends Specification {
 
-    private static KubernetesMockServer mockServer = new KubernetesMockServer();
-    private static KubernetesClient mockClient;
+    private static KubernetesMockServer mockServer = new KubernetesMockServer()
+    private static KubernetesClient mockClient
 
     def setupSpec() {
-        mockServer.init();
-        mockClient = mockServer.createClient();
-
-        //Setup configmap data
-        Map<String, String> data = new HashMap<>();
-        data.put("spring.kubernetes.test.value", "value1")
-        mockServer.expect().get().withPath("/api/v1/namespaces/testns/configmaps/testapp").andReturn(200, new ConfigMapBuilder()
-                .withData(data)
-                .build()).always()
-
+        mockServer.init()
+        mockClient = mockServer.createClient()
         //Configure the kubernetes master url to point to the mock server
-        System.setProperty(Config.KUBERNETES_MASTER_SYSTEM_PROPERTY, mockClient.getConfiguration().getMasterUrl());
-
+        System.setProperty(Config.KUBERNETES_MASTER_SYSTEM_PROPERTY, mockClient.getConfiguration().getMasterUrl())
     }
 
     def cleanupSpec() {
@@ -76,7 +66,7 @@ class KubernetesDiscoveryTest extends Specification {
                     .build())
                     .once()
         when:
-            KubernetesDiscovery discovery = new KubernetesDiscovery(mockServer.createClient(),
+            TurbineDiscovery discovery = new TurbineDiscovery(mockServer.createClient(),
                     Arrays.asList("current"),
                     Collections.emptyList())
             List<Instance> instances  = discovery.instanceList;
@@ -105,7 +95,7 @@ class KubernetesDiscoveryTest extends Specification {
                 .once()
 
         when:
-            KubernetesDiscovery discovery = new KubernetesDiscovery(mockServer.createClient(),
+            TurbineDiscovery discovery = new TurbineDiscovery(mockServer.createClient(),
                     Arrays.asList("current"),
                     Arrays.asList("service1", "service2"))
             List<Instance> instances  = discovery.instanceList
@@ -135,13 +125,13 @@ class KubernetesDiscoveryTest extends Specification {
                 .andReturn(200, newEndpoint("service2", "current", "ip2current"))
                 .once()
 
-        mockServer.expect().get()
+            mockServer.expect().get()
                 .withPath("/api/v1/namespaces/current/endpoints/service3")
                 .andReturn(200, newEndpoint("service3", "current", "ip3"))
                 .once()
 
         when:
-            KubernetesDiscovery discovery = new KubernetesDiscovery(mockServer.createClient(),
+            TurbineDiscovery discovery = new TurbineDiscovery(mockServer.createClient(),
                     Arrays.asList("ns1", "ns2"),
                     Arrays.asList("service1", "service2"))
             List<Instance> instances  = discovery.instanceList;

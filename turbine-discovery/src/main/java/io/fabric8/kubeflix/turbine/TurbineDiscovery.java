@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.fabric8.kubeflix.discovery;
+package io.fabric8.kubeflix.turbine;
 
 import com.netflix.turbine.discovery.Instance;
 import com.netflix.turbine.discovery.InstanceDiscovery;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class KubernetesDiscovery implements InstanceDiscovery {
+public class TurbineDiscovery implements InstanceDiscovery {
 
     private static final String HYSTRIX_ENABLED = "hystrix.enabled";
     private static final String HYSTRIX_CLUSTER = "hystrix.cluster";
@@ -70,7 +70,7 @@ public class KubernetesDiscovery implements InstanceDiscovery {
     };
 
 
-    public KubernetesDiscovery(KubernetesClient client, Collection<String> namespaces, Collection<String> clusters) {
+    public TurbineDiscovery(KubernetesClient client, Collection<String> namespaces, Collection<String> clusters) {
         this.client = client;
         this.namespaces = namespaces;
         this.clusters = clusters;
