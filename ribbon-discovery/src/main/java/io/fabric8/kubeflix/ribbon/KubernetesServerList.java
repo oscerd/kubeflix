@@ -47,15 +47,21 @@ public class KubernetesServerList extends AbstractServerList<Server> implements 
     private KubernetesClient client;
 
     public KubernetesServerList() {
+
     }
 
     public KubernetesServerList(IClientConfig clientConfig) {
+        this(clientConfig, new DefaultKubernetesClient());
+    }
+
+    public KubernetesServerList(IClientConfig clientConfig, KubernetesClient client) {
+        this.clientConfig = clientConfig;
+        this.client = client;
         this.initWithNiwsConfig(clientConfig);
     }
 
     public void initWithNiwsConfig(IClientConfig clientConfig) {
         this.clientConfig = clientConfig;
-        this.client = new DefaultKubernetesClient();
         this.name = clientConfig.getClientName();
         this.namespace = clientConfig.getPropertyAsString(KubernetesConfigKey.Namespace, client.getNamespace());
         this.portName = clientConfig.getPropertyAsString(KubernetesConfigKey.PortName, null);
