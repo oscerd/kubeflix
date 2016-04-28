@@ -52,26 +52,33 @@ class KubernetesDiscoveryTest extends Specification {
         mockServer.destroy();
     }
 
+    def newEndpoint(name, namespace, ip) {
+        return new EndpointsBuilder()
+        .withNewMetadata()
+            .withName(name)
+            .withNamespace(namespace)
+            .addToLabels("hystrix.enabled", "true")
+        .endMetadata()
+        .addNewSubset()
+            .addNewAddresse()
+                .withIp(ip)
+            .endAddresse()
+        .endSubset()
+        .build()
+    }
+
     def "should default to returning all hystrix.enabled endpoints in the current namespace"() {
         given:
             mockServer.expect().get()
                     .withPath("/api/v1/namespaces/current/endpoints?labelSelector=hystrix.enabled%3Dtrue")
                     .andReturn(200, new EndpointsListBuilder()
-                        .addNewItem()
-                            .withNewMetadata()
-                                .withName("service1")
-                                .withNamespace("current")
-                                .addToLabels("hystrix.enabled","true")
-                            .endMetadata()
-                            .addNewSubset()
-                                .addNewAddresse()
-                                    .withIp("ip1")
-                                .endAddresse()
-                            .endSubset()
-                        .endItem()
-                    .build()).once()
+                        .addToItems(newEndpoint("service1", "current", "ip1"))
+                    .build())
+                    .once()
         when:
-            KubernetesDiscovery discovery = new KubernetesDiscovery(mockServer.createClient(), Arrays.asList("current"), Collections.emptyList())
+            KubernetesDiscovery discovery = new KubernetesDiscovery(mockServer.createClient(),
+                    Arrays.asList("current"),
+                    Collections.emptyList())
             List<Instance> instances  = discovery.instanceList;
         then:
             instances != null
@@ -82,134 +89,70 @@ class KubernetesDiscoveryTest extends Specification {
 
     def "when one or more clusters are specified should return all endpoints with names equal to the cluster in the current namespace"() {
         given:
-        mockServer.expect().get()
+            mockServer.expect().get()
                 .withPath("/api/v1/namespaces/current/endpoints/service1")
-                .andReturn(200, new EndpointsBuilder()
-                        .withNewMetadata()
-                            .withName("service1")
-                            .withNamespace("current")
-                            .addToLabels("hystrix.enabled","true")
-                        .endMetadata()
-                        .addNewSubset()
-                            .addNewAddresse()
-                                .withIp("ip1")
-                            .endAddresse()
-                        .endSubset()
-                .build()).once()
+                .andReturn(200, newEndpoint("service1", "current", "ip1"))
+                .once()
 
-        mockServer.expect().get()
+            mockServer.expect().get()
                 .withPath("/api/v1/namespaces/current/endpoints/service2")
-                .andReturn(200, new EndpointsBuilder()
-                        .withNewMetadata()
-                            .withName("service2")
-                            .withNamespace("current")
-                            .addToLabels("hystrix.enabled","true")
-                        .endMetadata()
-                        .addNewSubset()
-                            .addNewAddresse()
-                                .withIp("ip2")
-                            .endAddresse()
-                        .endSubset()
-                .build()).once()
+                .andReturn(200, newEndpoint("service2", "current", "ip2"))
+                .once()
 
-        mockServer.expect().get()
+            mockServer.expect().get()
                 .withPath("/api/v1/namespaces/current/endpoints/service3")
-                .andReturn(200, new EndpointsBuilder()
-                        .withNewMetadata()
-                            .withName("service3")
-                            .withNamespace("current")
-                            .addToLabels("hystrix.enabled","true")
-                        .endMetadata()
-                        .addNewSubset()
-                            .addNewAddresse()
-                                .withIp("ip3")
-                            .endAddresse()
-                        .endSubset()
-                .build()).once()
+                .andReturn(200, newEndpoint("service3", "current", "ip3"))
+                .once()
 
         when:
-        KubernetesDiscovery discovery = new KubernetesDiscovery(mockServer.createClient(), Arrays.asList("current"), Arrays.asList("service1", "service2"))
-        List<Instance> instances  = discovery.instanceList;
+            KubernetesDiscovery discovery = new KubernetesDiscovery(mockServer.createClient(),
+                    Arrays.asList("current"),
+                    Arrays.asList("service1", "service2"))
+            List<Instance> instances  = discovery.instanceList
+
         then:
-        instances != null
-        instances.size() == 2
-        instances.find { i -> i.hostname == "ip1" }
-        instances.find { i -> i.hostname == "ip2" }
-        !instances.find { i -> i.hostname == "ip3" }
+            instances != null
+            instances.size() == 2
+            instances.find { i -> i.hostname == "ip1" }
+            instances.find { i -> i.hostname == "ip2" }
+            !instances.find { i -> i.hostname == "ip3" }
     }
 
     def "when one or more clusters and namespaces are specified should return all endpoints with names equal to the cluster in the specified namespace"() {
         given:
-        mockServer.expect().get()
+            mockServer.expect().get()
                 .withPath("/api/v1/namespaces/ns1/endpoints/service1")
-                .andReturn(200, new EndpointsBuilder()
-                        .withNewMetadata()
-                            .withName("service1")
-                            .withNamespace("ns1")
-                            .addToLabels("hystrix.enabled","true")
-                        .endMetadata()
-                        .addNewSubset()
-                            .addNewAddresse()
-                                .withIp("ip1")
-                            .endAddresse()
-                        .endSubset()
-                .build()).once()
+                .andReturn(200, newEndpoint("service1", "ns1", "ip1"))
+                .once()
 
-        mockServer.expect().get()
+            mockServer.expect().get()
                 .withPath("/api/v1/namespaces/ns2/endpoints/service2")
-                .andReturn(200, new EndpointsBuilder()
-                        .withNewMetadata()
-                            .withName("service2")
-                            .withNamespace("ns2")
-                            .addToLabels("hystrix.enabled","true")
-                        .endMetadata()
-                        .addNewSubset()
-                            .addNewAddresse()
-                                .withIp("ip2")
-                            .endAddresse()
-                        .endSubset()
-                .build()).once()
+                .andReturn(200, newEndpoint("service2", "ns2", "ip2"))
+                .once()
 
-        mockServer.expect().get()
+            mockServer.expect().get()
                 .withPath("/api/v1/namespaces/current/endpoints/service2")
-                .andReturn(200, new EndpointsBuilder()
-                        .withNewMetadata()
-                            .withName("service2")
-                            .withNamespace("current")
-                            .addToLabels("hystrix.enabled","true")
-                        .endMetadata()
-                        .addNewSubset()
-                            .addNewAddresse()
-                                .withIp("ip2current")
-                            .endAddresse()
-                        .endSubset()
-                .build()).once()
+                .andReturn(200, newEndpoint("service2", "current", "ip2current"))
+                .once()
 
         mockServer.expect().get()
                 .withPath("/api/v1/namespaces/current/endpoints/service3")
-                .andReturn(200, new EndpointsBuilder()
-                        .withNewMetadata()
-                            .withName("service3")
-                            .withNamespace("current")
-                            .addToLabels("hystrix.enabled","true")
-                        .endMetadata()
-                        .addNewSubset()
-                            .addNewAddresse()
-                                .withIp("ip3")
-                            .endAddresse()
-                        .endSubset()
-                .build()).once()
+                .andReturn(200, newEndpoint("service3", "current", "ip3"))
+                .once()
 
         when:
-        KubernetesDiscovery discovery = new KubernetesDiscovery(mockServer.createClient(), Arrays.asList("ns1", "ns2"), Arrays.asList("service1", "service2"))
-        List<Instance> instances  = discovery.instanceList;
+            KubernetesDiscovery discovery = new KubernetesDiscovery(mockServer.createClient(),
+                    Arrays.asList("ns1", "ns2"),
+                    Arrays.asList("service1", "service2"))
+            List<Instance> instances  = discovery.instanceList;
+
         then:
-        instances != null
-        instances.size() == 2
-        instances.find { i -> i.hostname == "ip1" }
-        instances.find { i -> i.hostname == "ip2" }
-        !instances.find { i -> i.hostname == "ip3" }
-        !instances.find { i -> i.hostname == "ip2current" }
+            instances != null
+            instances.size() == 2
+            instances.find { i -> i.hostname == "ip1" }
+            instances.find { i -> i.hostname == "ip2" }
+            !instances.find { i -> i.hostname == "ip3" }
+            !instances.find { i -> i.hostname == "ip2current" }
     }
 
 }
