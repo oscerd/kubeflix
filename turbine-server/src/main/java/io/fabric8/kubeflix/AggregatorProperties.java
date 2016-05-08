@@ -3,27 +3,25 @@ package io.fabric8.kubeflix;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
+import java.util.Map;
 
 @ConfigurationProperties(prefix = "turbine.aggregator")
 public class AggregatorProperties {
 
-    private List<String> clusterConfig;
+    Map<String, List<String>> clusters;
 
-    private List<String> namespaceConfig;
-
-    public List<String> getClusterConfig() {
-        return clusterConfig;
+    public AggregatorProperties() {
     }
 
-    public void setClusterConfig(List<String> clusterConfig) {
-        this.clusterConfig = clusterConfig;
+    public AggregatorProperties(Map<String, List<String>> clusters) {
+        this.clusters = clusters;
     }
 
-    public List<String> getNamespaceConfig() {
-        return namespaceConfig;
+    public Map<String, List<String>> getClusters() {
+        return clusters;
     }
 
-    public void setNamespaceConfig(List<String> namespaceConfig) {
-        this.namespaceConfig = namespaceConfig;
+    public void setClusters(Map<String, List<String>> clusters) {
+        this.clusters = clusters;
     }
 }

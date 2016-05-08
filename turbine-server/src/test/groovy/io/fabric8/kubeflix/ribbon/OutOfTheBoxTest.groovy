@@ -19,6 +19,7 @@ package io.fabric8.kubeflix.ribbon
 
 import io.fabric8.kubeflix.TurbineServerApplication
 import io.fabric8.kubernetes.api.model.EndpointsBuilder
+import io.fabric8.kubernetes.api.model.EndpointsListBuilder
 import io.fabric8.kubernetes.client.Config
 import io.fabric8.kubernetes.client.KubernetesClient
 import io.fabric8.kubernetes.server.mock.KubernetesMockServer
@@ -36,11 +37,10 @@ import spock.lang.Specification
 @WebIntegrationTest(
         [       "server.port:0",
                 "spring.application.name=turbine-server",
-                "spring.cloud.kubernetes.client.namespace=testns",
                 "spring.cloud.kubernetes.client.trustCerts=true",
-                "spring.cloud.kubernetes.config.namespace=testns"
+                "spring.cloud.kubernetes.client.namespace=current",
         ])
-class TurbineServerTest extends Specification {
+class OutOfTheBoxTest extends Specification {
 
     private static KubernetesMockServer mockServer = new KubernetesMockServer()
     private static KubernetesClient mockClient
@@ -52,20 +52,17 @@ class TurbineServerTest extends Specification {
         mockServer.init()
         mockClient = mockServer.createClient()
 
-        mockServer.expect().get()
-                .withPath("/api/v1/namespaces/current/endpoints/service1")
-                .andReturn(200, newEndpoint("service1", "current", "ip1"))
-                .always()
 
         mockServer.expect().get()
-                .withPath("/api/v1/namespaces/current/endpoints/service2")
-                .andReturn(200, newEndpoint("service2", "current", "ip2"))
+                .withPath("/api/v1/namespaces/current/endpoints?labelSelector=hystrix.enabled%3Dtrue")
+                .andReturn(200, new EndpointsListBuilder().withItems(
+                        newEndpoint("service1", "current", "ip1"),
+                        newEndpoint("service2", "current", "ip2"),
+                        newEndpoint("service3", "current", "ip3"),
+                        newEndpoint("service4", "current", "ip4"),
+                    ).build())
                 .always()
 
-        mockServer.expect().get()
-                .withPath("/api/v1/namespaces/current/endpoints/service3")
-                .andReturn(200, newEndpoint("service3", "current", "ip3"))
-                .always()
 
         //Configure the kubernetes master url to point to the mock server
         System.setProperty(Config.KUBERNETES_MASTER_SYSTEM_PROPERTY, mockClient.getConfiguration().getMasterUrl())
@@ -93,7 +90,7 @@ class TurbineServerTest extends Specification {
                 .build()
     }
 
-    def "discovery should include all configured clusters in all configured namespaces"() {
+    def "out of the box discovery should include all hystrix.enabled labeled endpoints in the current namespace"() {
         given:
             int port = server.embeddedServletContainer.port
             RestTemplate restTemplate = new TestRestTemplate()
@@ -101,8 +98,8 @@ class TurbineServerTest extends Specification {
             String response = restTemplate.getForObject("http://localhost:$port/discovery", String.class)
         then:
             response != null
-            response.contains("http://ip1:8080/hystrix.stream")
-            response.contains("http://ip2:8080/hystrix.stream")
-            response.contains("http://ip3:8080/hystrix.stream")
+            response.contains("http://ip1:8080/hystrix.stream default:true")
+            response.contains("http://ip2:8080/hystrix.stream default:true")
+            response.contains("http://ip3:8080/hystrix.stream default:true")
     }
 }

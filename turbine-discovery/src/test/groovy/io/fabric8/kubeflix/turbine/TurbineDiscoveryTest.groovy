@@ -69,18 +69,17 @@ class TurbineDiscoveryTest extends Specification {
                     .build())
                     .once()
         when:
-            TurbineDiscovery discovery = new TurbineDiscovery(mockServer.createClient(),
-                    Arrays.asList("current"),
-                    Collections.emptyList())
+            TurbineDiscovery discovery = new TurbineDiscovery(mockServer.createClient(), ['default': ['current.*']])
             List<Instance> instances  = discovery.instanceList;
         then:
             instances != null
             instances.size() == 1
             instances.get(0).getHostname().equals("ip1")
+            instances.get(0).getCluster().equals("default")
     }
 
 
-    def "when one or more clusters are specified should return all endpoints with names equal to the cluster in the current namespace"() {
+    def "when one or more services are specified should return all endpoints with names equal to the service in the current namespace"() {
         given:
             mockServer.expect().get()
                 .withPath("/api/v1/namespaces/current/endpoints/service1")
@@ -98,9 +97,7 @@ class TurbineDiscoveryTest extends Specification {
                 .once()
 
         when:
-            TurbineDiscovery discovery = new TurbineDiscovery(mockServer.createClient(),
-                    Arrays.asList("current"),
-                    Arrays.asList("service1", "service2"))
+            TurbineDiscovery discovery = new TurbineDiscovery(mockServer.createClient(), ['default': ['current.service1','current.service2']])
             List<Instance> instances  = discovery.instanceList
 
         then:
@@ -111,7 +108,7 @@ class TurbineDiscoveryTest extends Specification {
             !instances.find { i -> i.hostname == "ip3" }
     }
 
-    def "when one or more clusters and namespaces are specified should return all endpoints with names equal to the cluster in the specified namespace"() {
+    def "when one or more services and namespaces are specified should return all endpoints with names equal to the cluster in the specified namespace"() {
         given:
             mockServer.expect().get()
                 .withPath("/api/v1/namespaces/ns1/endpoints/service1")
@@ -134,9 +131,7 @@ class TurbineDiscoveryTest extends Specification {
                 .once()
 
         when:
-            TurbineDiscovery discovery = new TurbineDiscovery(mockServer.createClient(),
-                    Arrays.asList("ns1", "ns2"),
-                    Arrays.asList("service1", "service2"))
+            TurbineDiscovery discovery = new TurbineDiscovery(mockServer.createClient(), ['default': ['ns1.service1','ns2.service2']])
             List<Instance> instances  = discovery.instanceList;
 
         then:
