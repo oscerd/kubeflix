@@ -30,7 +30,9 @@ For use inside Kubernetes the project provides a special discovery module called
         <version>x.y.z</version>
     </dependency>    
 
-This discovery module is looking for Kubernetes endpoints that contain the following labels:
+This discovery module can be configured to discover instances either by name or by label. The default behavior is to discover all endpoints that contain the label ``hystrix.enabled=true``.
+
+The supported labels are:
 
 - hystrix.enabled:   Flag to indicate that the pod *(that provides the endpoint)* is exposing a hystrix stream
 - hystrix.cluster:   Optional label to define the name of the Hystrix cluster.
@@ -65,7 +67,7 @@ You can specify any turbine configuration property as an environment variable by
 Example:
 
 For creating the url to each individual hystrix stream, turbine is using the instance ip and appends a suffix specified by the ``turbine.instanceUrlSuffix``.
-To configure this property via env variable you just need to set an environment variable with name ``TURBINE_INSTANCE_URL_SUFFIX``.
+To configure this property via env variable you just need to set an environment variable with name ``TURBINE_INSTANCEURLSUFFIX``.
 
 #### Using ConfigMap
 
@@ -78,14 +80,25 @@ This means that you can just create a ConfigMap named ``turbine-server`` and add
           name: turbine-server
         data:¬
          application.yml: | 
-           turbine.instanceUrlSuffix: 8080/hystrix.stream
+           turbine.instanceUrlSuffix: :8080/hystrix.stream
 
 ### Turbine Discovery scopes
 
 Out of the box the turbine server will discover all endpoints in the current namespace with the required labels *(hystrix.enabled)*.
+All discovered instances will be part of the ``default`` cluster. You can configure additional clusters and provide more fine grained configuration and which instances belong to each cluster.
 
-If you need to use cross namespace aggregation, you can set the turbine porperty `turbine.aggregator.namespaceConfig` and set a comma separated list of namespaces.
-If you need more fine grained selection of endpoints in the current namespace you can set the turbine property `turbine.aggregator.clusterConfig`.
+    turbine.aggregator.clusters.<cluster name>=<namespace>.<service>    
+        
+So for example if we need to define a cluster called ``example`` that will encapsulate services ``bar`` and ``baz`` in the ``foo`` namespace, you can define:
+
+    turbine.aggregator.clusters.example=foo.bar,foo.baz
+    
+or if we would like **all** service of the ``foo`` namespace:
+
+    turbine.aggregator.clusters.example=foo.*
+
+    
+Note, that the option can be also provided as environment variables (e.g. TURBINE_AGGREGATOR_CLUSTER_FOO_SERVICES) or even via ConfigMap as described above.
 
 ## Ribbon Discovery
 

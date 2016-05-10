@@ -17,8 +17,6 @@
 
 package io.fabric8.kubeflix;
 
-import com.netflix.config.DynamicPropertyFactory;
-import com.netflix.config.DynamicStringProperty;
 import com.netflix.turbine.discovery.InstanceDiscovery;
 import com.netflix.turbine.init.TurbineInit;
 import com.netflix.turbine.plugins.PluginsFactory;
