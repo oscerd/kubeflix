@@ -21,7 +21,7 @@ machine:
     JAVA_OPTS: "-Xms256m -Xmx512m"
 dependencies:
   override:
-    - mvn install -DskipTests -U
+    - mvn install -DskipTests -U  -Ddocker.skip.build=true -Ddocker.skip=true
 test:
   post:
    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
