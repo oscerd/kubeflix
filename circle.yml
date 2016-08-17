@@ -23,6 +23,8 @@ dependencies:
   override:
     - mvn install -DskipTests -U  -Ddocker.skip.build=true -Ddocker.skip=true
 test:
+  override:
+    - mvn integration-test -Ddocker.skip.build=true -Ddocker.skip=true
   post:
    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
    - find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
