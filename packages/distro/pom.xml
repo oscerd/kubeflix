@@ -36,8 +36,6 @@
       <groupId>io.fabric8.kubeflix.packages</groupId>
       <artifactId>kubeflix</artifactId>
       <version>${project.version}</version>
-      <classifier>kubernetes</classifier>
-      <type>json</type>
     </dependency>
 
 
@@ -45,15 +43,12 @@
       <groupId>io.fabric8.kubeflix</groupId>
       <artifactId>turbine-server</artifactId>
       <version>${project.version}</version>
-      <classifier>kubernetes</classifier>
-      <type>json</type>
     </dependency>
     <dependency>
       <groupId>io.fabric8.kubeflix</groupId>
       <artifactId>hystrix-dashboard</artifactId>
       <version>${project.version}</version>
-      <classifier>kubernetes</classifier>
-      <type>json</type>
+      <type>war</type>
     </dependency>
 
   </dependencies>
@@ -61,25 +56,29 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.5.4</version>
+        <groupId>io.fabric8</groupId>
+        <artifactId>fabric8-maven-plugin</artifactId>
+        <version>${fabric8.maven.plugin.version}</version>
         <configuration>
-          <descriptors>
-            <descriptor>src/main/assembly/templates.xml</descriptor>
-          </descriptors>
+          <enricher>
+            <excludes>
+              <exclude>fmp-controller</exclude>
+            </excludes>
+          </enricher>
         </configuration>
         <executions>
           <execution>
-            <id>make-assembly</id>
-            <!-- this is used for inheritance merges -->
-            <phase>package</phase>
-            <!-- bind to the packaging phase -->
+            <id>fmp</id>
             <goals>
-              <goal>single</goal>
+              <goal>distro</goal>
+<!--
+              <goal>helm</goal>
+-->
             </goals>
           </execution>
         </executions>
       </plugin>
+
     </plugins>
   </build>
 

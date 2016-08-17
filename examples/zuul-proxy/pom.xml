@@ -114,7 +114,7 @@
                                     <descriptorRef>artifact</descriptorRef>
                                 </assembly>
                                 <ports>
-                                    <port>${fabric8.service.containerPort}</port>
+                                    <port>8080</port>
                                 </ports>
                                 <entryPoint>
                                     <exec>

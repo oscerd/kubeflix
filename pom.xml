@@ -100,12 +100,14 @@
 
         <!-- Maven Plugin Versions -->
         <docker-maven-plugin.version>0.14.2</docker-maven-plugin.version>
-        <fabric8-maven-plugin.version>2.2.101</fabric8-maven-plugin.version>
+        <fabric8.maven.plugin.version>3.1.17</fabric8.maven.plugin.version>
         <jetty-maven-plugin.version>9.3.7.v20160115</jetty-maven-plugin.version>
         <maven-compiler-plugin.version>3.5</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <maven-war-plugin.version>2.6</maven-war-plugin.version>
         <gmavenplus-plugin.version>1.2</gmavenplus-plugin.version>
+
+        <fabric8.dockerUser>fabric8/</fabric8.dockerUser>
     </properties>
 
     <modules>
@@ -422,7 +424,7 @@
                 <plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>fabric8-maven-plugin</artifactId>
-                    <version>${fabric8-maven-plugin.version}</version>
+                    <version>${fabric8.maven.plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
