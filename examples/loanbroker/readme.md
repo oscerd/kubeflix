@@ -35,7 +35,7 @@ It provides a rest endpoint which accepts the client's SSN as a parameter and re
 To build to the project:
 
     cd examples/loanbroker/credit-buraeu
-    mvn clean package docker:build fabric8:apply   
+    mvn clean package fabric8:build fabric8:deploy   
         
 You can access the servlet at: http://loanbroker-credit-bureau.vagrant.f8/hello (or wherever the loanbroker-credit-buraeu service is bound).
         
@@ -50,13 +50,13 @@ The bank communicate with the credit bureau via ribbon.
 To create a bank
 
     cd examples/loanbroker/bank
-    mvn clean package docker:build fabric8:apply -Dbank.id=<bank's id> -Dbank.name=<bank's name> -Dbank.rate=<base rate>
+    mvn clean package fabric8:build fabric8:deploy -Dbank.id=<bank's id> -Dbank.name=<bank's name> -Dbank.rate=<base rate>
 
 You can create as many banks as you like by repeating the last command with different arguments. For example:
 
-    mvn clean package docker:build fabric8:apply -Dbank.id=bank1 -Dbank.name="Bank One" -Dbank.rate=15
-    mvn clean package fabric8:apply -Dbank.id=bank2 -Dbank.name="Bank Two" -Dbank.rate=20
-    mvn clean package fabric8:apply -Dbank.id=bank3 -Dbank.name="Bank Three" -Dbank.rate=25
+    mvn clean package fabric8:build fabric8:deploy -Dbank.id=bank1 -Dbank.name="Bank One" -Dbank.rate=15
+    mvn clean package fabric8:deploy -Dbank.id=bank2 -Dbank.name="Bank Two" -Dbank.rate=20
+    mvn clean package fabric8:deploy -Dbank.id=bank3 -Dbank.name="Bank Three" -Dbank.rate=25
 
 ### The Broker
 
@@ -70,7 +70,7 @@ Internally the broker is using Spring's Rest Template to communicate with the Ba
 To build and create the broker:
 
     cd examples/loanbroker/broker
-    mvn clean package docker:build fabric8:apply   
+    mvn clean package fabric8:build fabric8:deploy   
 
 Once the broker has been created you can send http requests to to the broker url, for example:
     
@@ -84,7 +84,7 @@ To generate the requests automatically a small generator app has been added to t
 To build and create the generator:
 
     cd examples/loanbroker/broker
-    mvn clean package docker:build fabric8:apply
+    mvn clean package fabric8:build fabric8:deploy
     
 ### Using the Turbine Server and Hystrix Dashboard
 

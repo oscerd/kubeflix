@@ -52,7 +52,7 @@ If wider or narrower scope is required it can be done via configuration *(see be
 To build the server docker image and apply it to your kubernetes cluster:
 
     cd turbine-server
-    mvn clean package docker:build fabric8:apply   
+    mvn clean package fabric8:build fabric8:deploy   
 
 The **Turbine Server** can be accessed at: http://turbine-server.vagrant.f8/turbine.stream (or wherever the turbine-server service is bound).
 
@@ -152,7 +152,7 @@ This version of the dashboard comes pre-configured with the **Turbine Server** s
 To build:
 
     cd hystrix-dashboard
-    mvn clean package docker:build fabric8:apply   
+    mvn clean package fabric8:build fabric8:deploy   
 
 The dashboard can be accessed at:  http://hystrix-dashboard.vagrant.f8:8080 (or wherever the hystrix-dashboard service is bound).
 

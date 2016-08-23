@@ -18,7 +18,7 @@ To build to the project:
 To start the a hystrix example
 
      cd examples/hello-hystrix
-     mvn clean package docker:build fabric8:apply
+     mvn clean package fabric8:build fabric8:deploy
      
 This example is a simple hello world servlet, that uses a hystrix command to obtain the hello world message.
 
@@ -36,7 +36,7 @@ To make things more interesting we are going to use ribbon to create rest templa
 The rest template is packaged inside a servelet, so we have a servlet that uses ribbon to loadbalance invocations to an other servlet (the hello hystrix).
 
      cd examples/hello-ribbon
-     mvn clean package docker:build fabric8:apply
+     mvn clean package fabric8:build fabric8:deploy
      
 You can access the servlet at: http://hello-ribbon.vagrant.f8/hello (or wherever the hello-ribbon service is bound).
 The metrics stream for this example should be available at at: http://hello-ribbon.vagrant.f8/hello (or wherever the hello-ribbon service is bound).
@@ -54,7 +54,7 @@ A variation of the previous example that uses spring boot is also provided.
 You can build it and run it:
      
      cd examples/hello-ribbon-spring-boot
-     mvn clean package docker:build fabric8:apply
+     mvn clean package fabric8:build fabric8:deploy
 
 You can access the servlet at: http://hello-ribbon-spring-boot.vagrant.f8/hello (or wherever the hello-ribbon-spring-boot service is bound).
 The metrics stream for this example should be available at at: http://hello-ribbon-spring-boot.vagrant.f8/hello (or wherever the hello-ribbon service is bound).
