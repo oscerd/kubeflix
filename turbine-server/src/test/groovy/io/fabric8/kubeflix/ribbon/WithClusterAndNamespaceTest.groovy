@@ -92,9 +92,9 @@ class WithClusterAndNamespaceTest extends Specification {
                     .addToLabels("hystrix.enabled", "true")
                 .endMetadata()
                 .addNewSubset()
-                    .addNewAddresse()
+                    .addNewAddress()
                         .withIp(ip)
-                    .endAddresse()
+                    .endAddress()
                 .endSubset()
                 .build()
     }
