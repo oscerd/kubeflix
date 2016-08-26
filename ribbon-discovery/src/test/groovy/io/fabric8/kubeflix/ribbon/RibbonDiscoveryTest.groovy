@@ -18,6 +18,7 @@
 package io.fabric8.kubeflix.ribbon
 
 import com.netflix.loadbalancer.Server
+import io.fabric8.kubernetes.api.builder.TypedVisitor
 import io.fabric8.kubernetes.api.builder.Visitor
 import io.fabric8.kubernetes.api.model.EndpointSubsetBuilder
 import io.fabric8.kubernetes.api.model.EndpointsBuilder
@@ -50,13 +51,13 @@ class RibbonDiscoveryTest extends Specification {
                 .addToLabels("hystrix.enabled", "true")
                 .endMetadata()
                 .addNewSubset()
-                .endSubset().accept(new Visitor<EndpointSubsetBuilder>() {
+                .endSubset().accept(new TypedVisitor<EndpointSubsetBuilder>() {
             @Override
             void visit(EndpointSubsetBuilder b) {
                 for (int i = 1; i <= number; i++) {
                     int p = port + i - 1;
                     b.addNewPort().withName("port-" + p).withPort(p).endPort()
-                    b.addNewAddresse().withIp("ip-"+i).endAddresse()
+                    b.addNewAddress().withIp("ip-"+i).endAddress()
                 }
             }
         }).build()
