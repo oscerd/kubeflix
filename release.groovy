@@ -40,7 +40,7 @@ def release(project){
     groupId = 'io.fabric8.kubeflix'
     githubOrganisation = 'fabric8io'
     artifactIdToWatchInCentral = 'turbine-server'
-    artifactExtensionToWatchInCentral = 'war'
+    artifactExtensionToWatchInCentral = 'jar'
     promoteToDockerRegistry = 'docker.io'
     dockerOrganisation = 'fabric8'
     imagesToPromoteToDockerHub = ['hystrix-dashboard','turbine-server']
