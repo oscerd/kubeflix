@@ -29,9 +29,6 @@
   <name>Kubeflix :: Packages :: Kubeflix</name>
   <description>Turbine Server and Hystrix Dashboard</description>
 
-  <properties>
-  </properties>
-
   <dependencies>
 
     <dependency>
