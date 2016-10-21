@@ -194,12 +194,6 @@
                 <version>${spring-cloud-kubernetes.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.fabric8</groupId>
-                <artifactId>spring-cloud-kubernetes-compat</artifactId>
-                <version>${spring-cloud-kubernetes.version}</version>
-            </dependency>
-
             <!-- Netflix Dependencies -->
             <dependency>
                 <groupId>com.netflix.archaius</groupId>
