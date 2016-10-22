@@ -76,11 +76,6 @@
 
     <dependency>
       <groupId>io.fabric8</groupId>
-      <artifactId>spring-cloud-kubernetes-compat</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>io.fabric8</groupId>
       <artifactId>kubernetes-client</artifactId>
     </dependency>
 

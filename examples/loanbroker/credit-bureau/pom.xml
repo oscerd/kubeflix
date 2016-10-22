@@ -49,11 +49,6 @@
       <artifactId>spring-cloud-starter-kubernetes-all</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>io.fabric8</groupId>
-      <artifactId>spring-cloud-kubernetes-compat</artifactId>
-    </dependency>
-
   </dependencies>
 
   <build>
