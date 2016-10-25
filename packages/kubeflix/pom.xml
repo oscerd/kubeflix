@@ -29,22 +29,6 @@
   <name>Kubeflix :: Packages :: Kubeflix</name>
   <description>Turbine Server and Hystrix Dashboard</description>
 
-  <dependencies>
-
-    <dependency>
-      <groupId>io.fabric8.kubeflix</groupId>
-      <artifactId>turbine-server</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.fabric8.kubeflix</groupId>
-      <artifactId>hystrix-dashboard</artifactId>
-      <version>${project.version}</version>
-      <type>war</type>
-    </dependency>
-
-  </dependencies>
-
   <build>
     <plugins>
       <plugin>
@@ -67,6 +51,19 @@
             </goals>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>io.fabric8.kubeflix</groupId>
+            <artifactId>turbine-server</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>io.fabric8.kubeflix</groupId>
+            <artifactId>hystrix-dashboard</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
