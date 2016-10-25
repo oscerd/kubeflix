@@ -3,7 +3,8 @@ def updateDependencies(source){
 
   def properties = []
   properties << ['<fabric8.version>','io/fabric8/kubernetes-generator']
-  properties << ['<fabric8.maven.plugin.version>','io/fabric8/fabric8-maven-plugin']
+  // TODO - tends to update to 1.2.0.redhat-133!!
+  //properties << ['<fabric8.maven.plugin.version>','io/fabric8/fabric8-maven-plugin']
   properties << ['<kubernetes-client.version>','io/fabric8/kubernetes-client']
   properties << ['<spring-cloud-kubernetes.version>','io/fabric8/spring-cloud-kubernetes-core']
 
