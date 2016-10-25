@@ -48,6 +48,18 @@ def release(project){
   }
 }
 
+def updateDownstreamDependencies(stagedProject) {
+  pushPomPropertyChangePR {
+    propertyName = 'kubeflix.version'
+    projects = [
+            'fabric8io/fabric8-platform',
+            'fabric8io/fabric8-maven-dependencies',
+            'fabric8io/ipaas-platform'
+    ]
+    version = stagedProject[1]
+  }
+}
+
 def mergePullRequest(prId){
   mergeAndWaitForPullRequest{
     project = 'fabric8io/kubeflix'
