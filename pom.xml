@@ -74,6 +74,9 @@
     </distributionManagement>
 
     <properties>
+        <!-- lets disable S2I for our releases -->
+        <fabric8.mode>kubernetes</fabric8.mode>
+
         <!-- Dependency Versions -->
         <archaius.version>0.6.6</archaius.version>
         <commons-configuration.version>1.8</commons-configuration.version>
