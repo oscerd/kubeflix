@@ -1,7 +1,7 @@
 Kubeflix: Kubernetes integration of Netflix components
 ------------------------------------------------------
 
-This project provides [Kubernetes](http://kubernetes.io/) integration with [Netlix](https://netflix.github.io/) open source components such as [Hystrix](https://github.com/Netflix/Hystrix), [Turbine](https://github.com/Netflix/Turbine) and [Ribbon](https://github.com/Netflix/Ribbon).
+This project provides [Kubernetes](http://kubernetes.io/) integration with [Netflix](https://netflix.github.io/) open source components such as [Hystrix](https://github.com/Netflix/Hystrix), [Turbine](https://github.com/Netflix/Turbine) and [Ribbon](https://github.com/Netflix/Ribbon).
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.fabric8.kubeflix/ribbon-discovery/badge.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/io.fabric8.kubeflix/ribbon-discovery/) ![Apache 2](http://img.shields.io/badge/license-Apache%202-red.svg)
 
