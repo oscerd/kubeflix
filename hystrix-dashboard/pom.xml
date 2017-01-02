@@ -86,6 +86,7 @@
               <build>
                 <from>${docker.from}</from>
                 <assembly>
+                  <basedir>/deployments</basedir>
                   <descriptorRef>${docker.assemblyDescriptorRef}</descriptorRef>
                 </assembly>
               </build>
