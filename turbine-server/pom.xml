@@ -28,7 +28,7 @@
   <description>Turbine server with the Kubernetes discovery module pre-installed and pre-configured</description>
 
   <properties>
-    <docker.from>docker.io/fabric8/jetty-9:1.0.0</docker.from>
+    <docker.from>docker.io/fabric8/jetty-9:1.2.1</docker.from>
     <docker.image>${fabric8.dockerUser}${project.artifactId}:${project.version}</docker.image>
     <docker.assemblyDescriptorRef>rootWar</docker.assemblyDescriptorRef>
   </properties>
