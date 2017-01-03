@@ -29,7 +29,7 @@
   <description>Dashboard for visualization of Hystrix streams</description>
 
   <properties>
-    <docker.from>docker.io/fabric8/jetty-9:1.0.0</docker.from>
+    <docker.from>docker.io/fabric8/jetty-9:1.2.1</docker.from>
     <docker.image>${fabric8.dockerUser}${project.artifactId}:${project.version}</docker.image>
     <docker.assemblyDescriptorRef>rootWar</docker.assemblyDescriptorRef>
   </properties>
@@ -86,6 +86,7 @@
               <build>
                 <from>${docker.from}</from>
                 <assembly>
+                  <basedir>/deployments</basedir>
                   <descriptorRef>${docker.assemblyDescriptorRef}</descriptorRef>
                 </assembly>
               </build>
