@@ -81,7 +81,7 @@
         <archaius.version>0.6.6</archaius.version>
         <commons-configuration.version>1.8</commons-configuration.version>
         <guava.version>19.0</guava.version>
-        <hystrix.version>1.4.13</hystrix.version>
+        <hystrix.version>1.5.3</hystrix.version>
         <jackson2.version>2.7.0</jackson2.version>
         <fabric8.version>2.2.183</fabric8.version>
         <groovy.version>2.4.1</groovy.version>
